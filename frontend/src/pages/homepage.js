@@ -6,7 +6,7 @@ import { Row, Col } from 'react-bootstrap';
 
 function HomePage() {
   return (
-    <div>
+    <div className='mt-4'>
         <h1>Latest Products</h1>
         <Row>
             { products.map( product => (
