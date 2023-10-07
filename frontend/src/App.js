@@ -5,7 +5,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 
 import HomePage from './pages/homepage';
-import ProductPage from './pages/productpage';
+import ProductPage from './pages/productdetailpage';
 
 function App() {
     return (
