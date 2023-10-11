@@ -1,15 +1,16 @@
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { twj } from 'tw-to-css';
 
 import Header from './components/header';
 import Footer from './components/footer';
 
-import HomePage from './pages/homepage';
-import ProductPage from './pages/productdetailpage';
+import HomePage from './pages/homeScreen';
+import ProductPage from './pages/productDetailScreen';
 
 function App() {
     return (
-        <Router>
+        <Router style={twj("font-sans")}>
 
             {/* header component */}
             <Header />

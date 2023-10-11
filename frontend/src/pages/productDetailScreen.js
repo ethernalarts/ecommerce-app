@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { twj } from 'tw-to-css';
 import { Link, useParams } from 'react-router-dom';
 import { Row, Col, Image, Button, Card, ListGroup } from 'react-bootstrap';
 
@@ -6,7 +7,7 @@ import Rating from '../components/rating';
 import axios from 'axios';
 
 
-function ProductDetailPage() {   
+export default function ProductDetailPage() {   
 
     const { id } = useParams()
 
@@ -24,7 +25,7 @@ function ProductDetailPage() {
     }, [])
     
     return (
-        <div>
+        <div style={twj("font-sans font-normal")}>
             <Link to='/' className='btn btn-light my-3'>Back to Home</Link>
             <Row>
                 <Col md={6}>
@@ -42,11 +43,11 @@ function ProductDetailPage() {
                         </ListGroup.Item>
                         
                         <ListGroup.Item>
-                            Price: ${product.price}
+                            Price: &#8358;{ product.price }
                         </ListGroup.Item>
                         
-                        <ListGroup.Item>
-                            Description: {product.description}
+                        <ListGroup.Item style={twj("text-justify")}>
+                            Description: { product.description }
                         </ListGroup.Item>
                     </ListGroup>
                 </Col>
@@ -61,7 +62,7 @@ function ProductDetailPage() {
                                 </Col>
 
                                 <Col>
-                                    <strong>${ product.price }</strong>
+                                    <strong>&#8358;{ product.price }</strong>
                                 </Col>
                               </Row>
                           </ListGroup.Item>
@@ -91,5 +92,3 @@ function ProductDetailPage() {
         </div>
   )
 }
-
-export default ProductDetailPage

@@ -1,12 +1,13 @@
 import React from 'react'
+import { twj } from 'tw-to-css';
 import { Card } from 'react-bootstrap';
 import Rating from './rating';
 import { Link } from 'react-router-dom';
 
 
-function Product({ product }) {
+export default function Product({ product }) {
   return (
-        <Card className='my-3 p-3 rounded'>
+        <Card style={twj("font-sans text-md my-3 p-3 rounded-sm shadow-md")}>
             <Link to={`/product/${product._id}`}>
                 <Card.Img src={ product.image } />
             </Link>
@@ -25,11 +26,9 @@ function Product({ product }) {
                 </Card.Text>
 
                 <Card.Text as="h3">
-                    ${ product.price }
+                    &#8358;{ product.price }
                 </Card.Text>
             </Card.Body>
         </Card>
   )
 }
-
-export default Product
