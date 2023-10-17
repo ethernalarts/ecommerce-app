@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 export default function Product({ product }) {
   return (
         <Card style={twj("font-sans text-md my-3 p-3 rounded-sm shadow-md")}>
-            <Link to={`/product/${product._id}`}>
+            <Link to={`/product/${ product._id }`}>
                 <Card.Img src={ product.image } />
             </Link>
 

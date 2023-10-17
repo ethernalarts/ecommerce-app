@@ -5,8 +5,9 @@ import { twj } from 'tw-to-css';
 import Header from './components/header';
 import Footer from './components/footer';
 
-import HomePage from './pages/homeScreen';
-import ProductPage from './pages/productDetailScreen';
+import HomeScreen from './pages/homeScreen';
+import ProductDetailScreen from './pages/productDetailScreen';
+import CartScreen from './pages/CartScreen';
 
 function App() {
     return (
@@ -16,11 +17,12 @@ function App() {
             <Header />
 
             {/* body component */}
-            <main className='py-3'>
+            <main className='py-3 bg-gray-100'>
                 <Container>
                     <Routes>
-                        <Route path='/' Component={ HomePage } exact />
-                        <Route path='/product/:id' element={ <ProductPage /> } />
+                        <Route path='/' Component={ HomeScreen } exact />
+                        <Route path='/product/:id' element={ <ProductDetailScreen /> } />
+                        <Route path='/cart/:id?' element={ <CartScreen /> } />
                     </Routes>
                 </Container>
             </main>

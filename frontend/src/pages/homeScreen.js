@@ -10,7 +10,7 @@ import { listProducts } from '../actions/productActions';
 
 
 
-export default function HomePage() {
+export default function HomeScreen() {
     const dispatch = useDispatch()
     const productList = useSelector(state => state.productList)
     const { error, loading, products } = productList
@@ -25,7 +25,7 @@ export default function HomePage() {
         <div style={twj("font-sans mt-10")}>
             <h1 style={twj("text-3xl font-bold text-gray-600")}>Latest Products</h1>
             {
-                loading ? <Loader />
+                loading ? <Loader style={twj("mt-48")} />
                 :   error ? <Message variant="danger">{ error }</Message>
                     :  
                         <Row>
