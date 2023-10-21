@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_LIST_SUCCESS,
@@ -9,7 +8,6 @@ import {
     PRODUCT_DETAILS_FAIL,
     CLEAR_PRODUCT_DETAILS
 } from '../constants/productConstants';
-import store from '../store';
 
 
 
@@ -30,13 +28,13 @@ export const ProductListReducers = (state = { products: [] }, action) => {
 }
 
 
-// const initialState = {
-//     loading: false,
-//     error: null,
-//     product: null
-// };
+const initialState = {
+    loading: true,
+    error: null,
+    product: { reviews:[] }
+};
 
-export const ProductDetailsReducers = (state = { product: { reviews:[] } }, action) => {
+export const ProductDetailsReducers = (state = initialState, action) => {
   
     switch(action.type) {
         case PRODUCT_DETAILS_REQUEST:
@@ -52,6 +50,6 @@ export const ProductDetailsReducers = (state = { product: { reviews:[] } }, acti
         //     return initialState
 
         default:
-            return state
+            return initialState
     }   
 }

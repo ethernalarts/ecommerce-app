@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function Rating({value, text, color}) {
+export default function Rating({value, text, color}) {
     return (
         <div className='rating'>
             {/* one star */}
@@ -65,10 +65,7 @@ function Rating({value, text, color}) {
             </span>
             
             {/* number of reviews */}
-            <br></br>
-            <span>{ text && text }</span>
+            <span className='ml-8'>{ text && text }</span>
         </div>
   )
 }
-
-export default Rating

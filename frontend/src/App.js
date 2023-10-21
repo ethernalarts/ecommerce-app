@@ -9,6 +9,7 @@ import HomeScreen from './pages/homeScreen';
 import ProductDetailScreen from './pages/productDetailScreen';
 import CartScreen from './pages/CartScreen';
 
+
 function App() {
     return (
         <Router style={twj("font-sans")}>
@@ -22,7 +23,7 @@ function App() {
                     <Routes>
                         <Route path='/' Component={ HomeScreen } exact />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />
-                        <Route path='/cart/:id?' element={ <CartScreen /> } />
+                        <Route path='/cart/:id?' Component={ CartScreen } />
                     </Routes>
                 </Container>
             </main>

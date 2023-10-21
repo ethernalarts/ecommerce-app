@@ -54,6 +54,4 @@ export const listProductDetails = ( id ) => async (dispatch) => {
             :   error.message,
          })
     }
-
-        dispatch({ type: CLEAR_PRODUCT_DETAILS });
 }

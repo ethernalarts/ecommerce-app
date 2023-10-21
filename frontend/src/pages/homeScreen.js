@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { twj } from 'tw-to-css';
 import { Row, Col } from 'react-bootstrap';
@@ -22,17 +22,18 @@ export default function HomeScreen() {
 
     
     return (
-        <div style={twj("font-sans mt-10")}>
-            <h1 style={twj("text-3xl font-bold text-gray-600")}>Latest Products</h1>
+        <div style={twj("font-sans mt-8")}>
+            <h1 style={twj("text-3xl font-medium text-gray-600")}>Our Latest Products</h1>
             {
                 loading ? <Loader style={twj("mt-48")} />
                 :   error ? <Message variant="danger">{ error }</Message>
                     :  
-                        <Row>
+                        <Row style={twj("")}>
                             { products.map( product => (
-                                <Col 
+                                <Col
                                     key={ product._id } 
-                                    sm={12} md={6} lg={4} xl={3}>
+                                    sm={12} md={6} lg={4} xl={3}
+                                >
                                     <Product product={ product } />
                                 </Col>
                             ))}
