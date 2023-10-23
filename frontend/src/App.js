@@ -8,6 +8,8 @@ import Footer from './components/footer';
 import HomeScreen from './pages/homeScreen';
 import ProductDetailScreen from './pages/productDetailScreen';
 import CartScreen from './pages/CartScreen';
+import loginScreen from './pages/loginScreen';
+
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
                 <Container>
                     <Routes>
                         <Route path='/' Component={ HomeScreen } exact />
+                        <Route path='/login' Component={ loginScreen } />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />
                         <Route path='/cart/:id?' Component={ CartScreen } />
                     </Routes>

@@ -10,11 +10,12 @@ import Message from '../components/Message';
 import { listProductDetails } from '../actions/productActions';
 import { CLEAR_PRODUCT_DETAILS } from '../constants/productConstants';
 import { addToCart } from '../actions/cartActions';
-import CartScreen from './CartScreen';
+import naira from '../Naira';
 
 
 
 export default function ProductDetailScreen() {
+    
     const { id } = useParams();    
     const dispatch = useDispatch();
     const history = useNavigate();
@@ -25,7 +26,7 @@ export default function ProductDetailScreen() {
 
     useEffect(() => { 
         dispatch ( listProductDetails( id ))
-        return () => dispatch( { type: CLEAR_PRODUCT_DETAILS } )        
+        //return () => dispatch( { type: CLEAR_PRODUCT_DETAILS } )        
 
     }, [ dispatch, id ])
 
@@ -37,7 +38,9 @@ export default function ProductDetailScreen() {
   
     return (
         <div style={twj("font-sans font-normal")}>
-            <Link to='/' className='btn btn-light my-3'>Go Back</Link>
+            <Link to='/' className='btn btn-light my-3'>
+                <i className='fas fa-arrow-left'></i> Back
+            </Link>
             {
                 loading ? <Loader />
                 :   error ? <Message variant="danger">{ error }</Message>
@@ -59,7 +62,7 @@ export default function ProductDetailScreen() {
                                         </ListGroup.Item>
                                         
                                         <ListGroup.Item>
-                                            Price: &#8358;{ product.price }
+                                            Price: { naira.format(product.price) }
                                         </ListGroup.Item>
                                         
                                         <ListGroup.Item style={twj("text-justify")}>
@@ -76,7 +79,7 @@ export default function ProductDetailScreen() {
                                                     <Col>Price</Col>
 
                                                     <Col>
-                                                        &#8358;{ product.price }
+                                                        { naira.format(product.price) }
                                                     </Col>
                                                 </Row>
                                             </ListGroup.Item>

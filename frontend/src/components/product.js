@@ -1,13 +1,24 @@
 import React from 'react'
 import { twj } from 'tw-to-css';
 import { Card, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 import Rating from './rating';
 import { Link } from 'react-router-dom';
+import naira from '../Naira';
+import { addToCart } from '../actions/cartActions';
+
 
 
 export default function Product({ product }) {
-  return (
-        <Card className='' style={twj("font-sans text-md my-4 border-1")}>
+    const dispatch = useDispatch()
+    const qty = 1
+    
+    const addToCartHandler = () => {
+        dispatch (addToCart(product._id, qty))
+    }
+
+    return (
+        <Card className='shadow' style={twj("font-sans text-md my-4 border-0")}>
             <Link to={`/product/${ product._id }`}>
                 <Card.Img src={ product.image } />
             </Link>
@@ -25,21 +36,21 @@ export default function Product({ product }) {
                     </div>
                 </Card.Text>
 
-                <Card.Text style={twj("font-sans text-gray-600 font-bold text-2xl")}>
-                    &#8358;{ product.price }
+                <Card.Text style={twj("font-sans text-gray-600 text-center font-bold text-2xl")}>
+                    { naira.format(product.price) }
                 </Card.Text>
 
-                {/* <Card.Link>
+                <Card.Link>
                     <Button 
-                        onChange=""
+                        onClick={ addToCartHandler }
                         type='button' 
                         className='my-2 btn btn-warning w-100 btn-block' 
                         disabled={ product.countInStock === 0 }>
                         Add to Cart
                     </Button>
-                </Card.Link> */}
+                </Card.Link>
             </Card.Body>
         </Card>
-  )
+)
 }
 //box-shadow: 0px 4px 16px rgba(17,17,26,0.1), 0px 8px 24px rgba(17,17,26,0.1), 0px 16px 56px rgba(17,17,26,0.1);

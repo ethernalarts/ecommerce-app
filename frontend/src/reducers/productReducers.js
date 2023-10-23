@@ -6,7 +6,6 @@ import {
     PRODUCT_DETAILS_REQUEST,
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL,
-    CLEAR_PRODUCT_DETAILS
 } from '../constants/productConstants';
 
 
@@ -46,10 +45,7 @@ export const ProductDetailsReducers = (state = initialState, action) => {
         case PRODUCT_DETAILS_FAIL:
             return { loading: false, error: action.payload }
 
-        // case CLEAR_PRODUCT_DETAILS:
-        //     return initialState
-
         default:
-            return initialState
+            return state
     }   
 }

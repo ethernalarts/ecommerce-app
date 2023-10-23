@@ -3,7 +3,9 @@ import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
 import Message from '../components/Message';
+import naira from '../Naira';
 import { addToCart, removeFromCart } from '../actions/cartActions';
+import { twj } from 'tw-to-css';
 
 
 
@@ -41,7 +43,7 @@ function CartScreen() {
                 { 
                     cartItems.length === 0 ? (
                     <Message variant="info">
-                        Your Cart is empty. <Link to="/">Continue Shopping</Link>
+                        Your cart is empty. <Link to="/">Start Shopping</Link>
                     </Message>
                     ) : 
                         (
@@ -61,7 +63,7 @@ function CartScreen() {
                                                 </Col>
 
                                                 <Col md={2}>
-                                                    &#8358;{ item.price }
+                                                    { naira.format(item.price) }
                                                 </Col>
 
                                                 <Col md={3}>
@@ -107,8 +109,8 @@ function CartScreen() {
                             <h2>Subtotal ({ cartItems.reduce((acc, item) => acc + item.qty, 0) }) items</h2>
                             <Row>
                                 <Col>Total Amount:</Col>
-                                <Col>
-                                    &#8358;{ cartItems.reduce((acc, item) => acc + item.qty * Number(item.price), 0).toFixed(2) }
+                                <Col style={twj("font-bold")}>
+                                    { naira.format( cartItems.reduce((acc, item) => acc + item.qty * item.price, 0).toFixed(2) ) }
                                 </Col>
                             </Row>                            
                         </ListGroup.Item>
@@ -120,11 +122,19 @@ function CartScreen() {
                                 disabled={ cartItems.length === 0 }
                                 onClick={ checkoutHandler }
                             >
-                                Proceed To Checkout
+                                Checkout
                             </Button>
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>
+            </Col>
+
+            <Col className='m-4 p-2'>
+                <Link to="/">
+                    <Button className='btn btn-dark'>
+                        <i className='fas fa-arrow-left'></i>
+                    </Button>
+                </Link>
             </Col>
         </Row>
     )
