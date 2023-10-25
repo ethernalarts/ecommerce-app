@@ -5,23 +5,26 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { login } from '../actions/userActions';
+import { register } from '../actions/userActions';
 import { twj } from 'tw-to-css';
 
 
 
-export default function LoginScreen() {
+export default function RegisterScreen() {    
     
+    const [ name, setName ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
+    const [ confirmPassword, setConfirmPassword ] = useState('')
+    const [ message, setMessage ] = useState('')
 
     const history = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
 
     const redirect = location.search ? new URLSearchParams(location.search).get('redirect') : '/'
-    const userLogin = useSelector(state => state.userLogin)
-    const { loading, userInfo, error } = userLogin
+    const userRegister = useSelector(state => state.userRegister)
+    const { loading, userInfo, error } = userRegister
     
     useEffect(() => {
         if (userInfo) {
@@ -31,22 +34,42 @@ export default function LoginScreen() {
 
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(login( email, password ))
+        if (password != confirmPassword) {
+            setMessage ('Passwords do not match')
+        } else {
+            dispatch(register( name, email, password ))
+        }
     }
 
     return (
         <FormContainer>
-            <h1 className='text-center'>Sign In</h1>
+            <h1 className='text-center'>Register</h1>
 
+            { message && <Message variant='danger'>{ message }</Message> }
             { error && <Message variant='danger'>{ error }</Message> }
             { loading && <Loader /> }
 
             <Form onSubmit={ submitHandler }>
 
-                {/* Email Form Group */}
-                <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
+                {/* Name Form Group */}
+                <Form.Group controlId='name'>
+                    <Form.Label>Name</Form.Label>
                     <Form.Control
+                        required
+                        type='name'
+                        placeholder='Enter Name'
+                        style={twj("border border-1 border-gray-200")}
+                        value={ name }
+                        onChange={(e) => setName(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
+
+                {/* Email Form Group */}
+                <Form.Group controlId='email' className='mt-4'>
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        required
                         type='email'
                         placeholder='Enter Email'
                         style={twj("border border-1 border-gray-200")}
@@ -60,32 +83,49 @@ export default function LoginScreen() {
                 <Form.Group controlId='password' className='mt-4'>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
+                        required
                         type='password'
-                        style={twj("border border-1 border-gray-200")}
                         placeholder='Enter Password'
+                        style={twj("border border-1 border-gray-200")}
                         value={ password }
                         onChange={(e) => setPassword(e.target.value)}
                     >
                     </Form.Control>
                 </Form.Group>
 
+                {/* Confirm Password Form Group */}
+                <Form.Group controlId='passwordConfirm' className='mt-4'>
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        required
+                        type='password'
+                        placeholder='Confirm Password'
+                        style={twj("border border-1 border-gray-200")}
+                        value={ confirmPassword }
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
+
+                {/* Submit Button */}
                 <Button
                     type='submit'
                     variant='primary'
                     className='my-4 py-3 btn-dark w-100'
                 >
-                    Sign In
+                    Register
                 </Button>
             </Form>
 
             <Row className='py-3 text-center'>
                 <Col>
-                    New Customer? 
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className='mx-3'>
-                        Register
+                    Already a Customer? 
+                    <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} className='mx-3'>
+                        Sign In
                     </Link>
                 </Col>
             </Row>
+        
         </FormContainer>
     )
 }

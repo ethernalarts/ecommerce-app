@@ -17,7 +17,7 @@ function CartScreen() {
 
     const product_id = id
 
-    const qty = location ? Number(new URLSearchParams(location.search).get('qty')) : 1
+    const qty = location.search ? Number(new URLSearchParams(location.search).get('qty')) : 1
 
     const cart = useSelector(state => state.cart)
     const { cartItems } = cart    
@@ -66,7 +66,7 @@ function CartScreen() {
                                                     { naira.format(item.price) }
                                                 </Col>
 
-                                                <Col md={3}>
+                                                <Col md={2}>
                                                     <Form.Control
                                                         as="select"
                                                         className='border-1'
@@ -83,14 +83,14 @@ function CartScreen() {
                                                     </Form.Control>
                                                 </Col>
 
-                                                <Col md={2}>
+                                                <Col md={3}>
                                                     <Button 
                                                         type='button' 
                                                         variant='light'
                                                         className='text-danger'
                                                         onClick={() => removeFromCartHandler( item.product_id )}
                                                     >
-                                                        <i className='fas fa-trash'></i>
+                                                        <i className='fas fa-trash' style={twj("mr-2")}></i>REMOVE
                                                     </Button>
                                                 </Col>
                                             </Row>

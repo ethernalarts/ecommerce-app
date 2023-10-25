@@ -8,7 +8,9 @@ import Footer from './components/footer';
 import HomeScreen from './pages/homeScreen';
 import ProductDetailScreen from './pages/productDetailScreen';
 import CartScreen from './pages/CartScreen';
-import loginScreen from './pages/loginScreen';
+import LoginScreen from './pages/loginScreen';
+import RegisterScreen from './pages/registerScreen';
+import ProfileScreen from './pages/profileScreen';
 
 
 
@@ -24,7 +26,9 @@ function App() {
                 <Container>
                     <Routes>
                         <Route path='/' Component={ HomeScreen } exact />
-                        <Route path='/login' Component={ loginScreen } />
+                        <Route path='/login' Component={ LoginScreen } />
+                        <Route path='/register' Component={ RegisterScreen } />
+                        <Route path='/profile' Component={ ProfileScreen } />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />
                         <Route path='/cart/:id?' Component={ CartScreen } />
                     </Routes>
