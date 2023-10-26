@@ -18,9 +18,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     
 
 class UserSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField(read_only=True)
+    name = serializers.SerializerMethodField()
     _id = serializers.SerializerMethodField(read_only=True)
     isAdmin = serializers.SerializerMethodField(read_only=True)
+    username = serializers.SerializerMethodField(read_only=True)
     
     class Meta:
         model = User
@@ -32,11 +33,11 @@ class UserSerializer(serializers.ModelSerializer):
     def get__id(self, obj):
         return obj.id
     
-    def get_name(self, obj):        
-        return obj.get_full_name()
+    def get_name(self, obj):   
+        return obj.first_name        
 
     def get_username(self, obj):
-        return obj.get_username()
+        return obj.username
 
 
 class UserSerializerWithToken(UserSerializer):  

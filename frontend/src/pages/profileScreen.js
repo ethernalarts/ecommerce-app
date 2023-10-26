@@ -5,7 +5,8 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import { twj } from 'tw-to-css';
 
 
@@ -22,17 +23,21 @@ export default function ProfileScreen() {
     const history = useNavigate()
     const dispatch = useDispatch()
 
-    const userDetails = useSelector(state => state.userDetails)
+    const userDetails = useSelector(state => { return state.userDetails })
     const { loading, user, error } = userDetails
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
+
+    const userUpdateProfile = useSelector(state => state.userUpdateProfile)
+    const { success } = userUpdateProfile
     
     useEffect(() => {
-        if (!userInfo) {
+        if ( !userInfo ) {
             history('/login')
         } else {
-            if (!user || !user.name) {
+            if (!user || !user.name || success) {
+                dispatch ({ type: USER_UPDATE_PROFILE_RESET })
                 dispatch (getUserDetails('profile'))
             } else {
                 setName(user.name)
@@ -42,14 +47,22 @@ export default function ProfileScreen() {
                 setConfirmPassword(user.confirmPassword)
             }
         }
-    }, [ dispatch, history, userInfo, user ])
+    }, [ dispatch, history, userInfo, user, success ])
 
     const submitHandler = (e) => {
         e.preventDefault()
+
         if (password != confirmPassword) {
             setMessage ('Passwords do not match')
         } else {
-            console.log('updated')
+            dispatch (updateUserProfile({
+                'id': user._id,
+                'name': name,
+                'username': username,
+                'email': email,
+                'password': password
+            }))
+            setMessage ('')
         }
     }
 
@@ -66,11 +79,11 @@ export default function ProfileScreen() {
 
                     {/* Name Form Group */}
                     <Form.Group controlId='name'>
-                        <Form.Label>Name</Form.Label>
+                        <Form.Label>Full Name</Form.Label>
                         <Form.Control
                             required
                             type='name'
-                            placeholder='Enter Name'
+                            placeholder='Enter Full Name'
                             style={twj("border border-1 border-gray-200")}
                             value={ name }
                             onChange={(e) => setName(e.target.value)}

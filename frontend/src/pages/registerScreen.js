@@ -53,11 +53,11 @@ export default function RegisterScreen() {
 
                 {/* Name Form Group */}
                 <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
+                    <Form.Label>Full Name</Form.Label>
                     <Form.Control
                         required
                         type='name'
-                        placeholder='Enter Name'
+                        placeholder='Enter Full Name'
                         style={twj("border border-1 border-gray-200")}
                         value={ name }
                         onChange={(e) => setName(e.target.value)}
