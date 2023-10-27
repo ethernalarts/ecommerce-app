@@ -3,46 +3,73 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Row, Col, Image, Card, ListGroup } from 'react-bootstrap';
 import Message from '../components/Message';
+import CheckoutSteps from '../components/checkoutSteps';
 import naira from '../Naira';
 import { twj } from 'tw-to-css';
-import CheckoutSteps from '../components/checkoutSteps';
+import FormContainer from '../components/FormContainer';
+import { createOrder } from '../actions/orderActions';
 
 
 
 export default function PlaceOrderScreen() {
+    
+    const orderCreate = useSelector(state => state.orderCreate)
+    const { order, error, success } = orderCreate
 
+    const dispatch = useDispatch()
+    const history = useNavigate()
     const cart = useSelector(state => state.cart)
 
     cart.itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
     cart.shippingPrice = cart.itemsPrice > 200000 ? 0 : 3000
-    cart.taxPrice = (0.08) * cart.itemsPrice
+    cart.taxPrice = (0.07) * cart.itemsPrice
 
     cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
+
+    if (!cart.paymentMethod) {
+        history('/payment')
+    }
+
+    useEffect(() => {
+        if (success) {
+            history(`/order/${order._id}`)
+        }
+    }, [ success, history ])
     
     const placeOrderHandler = () => {
-        console.log('Place Order')
+        dispatch (createOrder({
+            orderItems: cart.cartItems,
+            shippingAddress: cart.shippingAddress,
+            paymentMethod: cart.paymentMethod,
+            taxPrice: cart.taxPrice,
+            shippingPrice: cart.shippingPrice,
+            totalPrice: cart.totalPrice
+        }))
     }
 
     return (        
         <div>
-            <CheckoutSteps step1 step2 step3 step4 style={twj("mx-auto")} />
+            <FormContainer>
+                <CheckoutSteps step1 step2 step3 step4 />
+            </FormContainer>
+
             <Row>
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h2>Shipping Address</h2>
+                            <h2>Shipping</h2>
 
-                            <p>
-                                { cart.shippingAddress.address }, { cart.shippingAddress.city },
+                            <p> 
+                                Address: { cart.shippingAddress.address }, { cart.shippingAddress.city },
                                 { cart.shippingAddress.postalCode }, { cart.shippingAddress.country }
                             </p>
                         </ListGroup.Item>
 
                         <ListGroup.Item>
-                            <h2>Payment Method</h2>
+                            <h2>Payment</h2>
 
                             <p>
-                                { cart.paymentMethod }
+                                Method: { cart.paymentMethod }
                             </p>
                         </ListGroup.Item>
 
@@ -83,7 +110,7 @@ export default function PlaceOrderScreen() {
                     <Card>
                         <ListGroup variant='flush'>
                             <ListGroup.Item>
-                                <h2>Order Summary</h2>
+                                <h2 className='text-center'>Order Summary</h2>
                             </ListGroup.Item>
 
                             <ListGroup.Item>
@@ -112,6 +139,14 @@ export default function PlaceOrderScreen() {
                                     <Col>Total Price: </Col>
                                     <Col>{ naira.format( cart.totalPrice ) }</Col>
                                 </Row>
+                            </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {
+                                    error && <Message variant='danger'>
+                                        { error }
+                                    </Message>
+                                }
                             </ListGroup.Item>
 
                             <ListGroup.Item>
