@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
@@ -33,7 +33,7 @@ function CartScreen() {
     }
 
     const checkoutHandler = () => {
-        history('/login?redirect=shipping')
+        history('/login?redirect=/shipping')
     }
 
     return (

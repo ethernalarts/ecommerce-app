@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
@@ -58,7 +58,7 @@ export default function RegisterScreen() {
                         required
                         type='name'
                         placeholder='Enter Full Name'
-                        style={twj("border border-1 border-gray-200")}
+                        style={twj("border border-1 border-gray-300")}
                         value={ name }
                         onChange={(e) => setName(e.target.value)}
                     >
@@ -72,7 +72,7 @@ export default function RegisterScreen() {
                         required
                         type='email'
                         placeholder='Enter Email'
-                        style={twj("border border-1 border-gray-200")}
+                        style={twj("border border-1 border-gray-300")}
                         value={ email }
                         onChange={(e) => setEmail(e.target.value)}
                     >
@@ -86,7 +86,7 @@ export default function RegisterScreen() {
                         required
                         type='password'
                         placeholder='Enter Password'
-                        style={twj("border border-1 border-gray-200")}
+                        style={twj("border border-1 border-gray-300")}
                         value={ password }
                         onChange={(e) => setPassword(e.target.value)}
                     >

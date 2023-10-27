@@ -21,8 +21,7 @@ def registerUser(request):
 
     try:
         new_user = User.objects.create(
-            first_name = data['first_name'],
-            last_name = data['last_name'],
+            first_name = data['name'],
             username = data['username'],
             email = data['email'],
             password = make_password(data['password'])
@@ -41,18 +40,19 @@ def registerUser(request):
 @permission_classes([IsAuthenticated])
 def updateUserProfile(request):
     user = request.user
-    data = request.data
     serializer = UserSerializerWithToken(user, many=False)
+
+    user.first_name = request.data['name']
+    user.username = request.data['username']
+    user.email = request.data['email']
     
-    user.first_name = data['name']
-    user.username = data['username']
-    user.email = data['email']    
-    
-    if data.get('password') == '':
-        user.password = make_password(data['password'])
-    
+    check_for_password = request.data.get('password', None)
+
+    if check_for_password != None:
+        user.password = make_password(request.data['password'])
+        
     user.save()    
-    
+
     return Response(serializer.data)
 
 

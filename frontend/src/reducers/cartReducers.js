@@ -1,14 +1,16 @@
 import {
     CART_ADD_ITEM,
-    CART_REMOVE_ITEM
+    CART_REMOVE_ITEM,
+    CART_SAVE_SHIPPING_ADDRESS,
+    CART_SAVE_PAYMENT_METHOD,
 } from '../constants/cartConstants';
 
 
 
 const initialState = {
-    cartItems: localStorage.getItem('cartItems') ? 
-        JSON.parse(localStorage.getItem('cartItems')) 
-        : []
+    cartItems: JSON.parse(localStorage.getItem('cartItems')) || [],
+    shippingAddress: JSON.parse(localStorage.getItem('shippingAddress')) || [],
+    paymentMethod: JSON.parse(localStorage.getItem('paymentMethod')) || []
 }
 
 export const cartReducer = (state = initialState, action) => {
@@ -40,7 +42,19 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 cartItems: state.cartItems.filter( item => item.product_id !== action.payload )
             }
+        
+        case CART_SAVE_SHIPPING_ADDRESS:
+            return {
+                ...state,
+                shippingAddress: action.payload
+            }
 
+        case CART_SAVE_PAYMENT_METHOD:
+            return {
+                ...state,
+                paymentMethod: action.payload
+            }
+        
         default:
             return state
     }

@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import FormContainer from '../components/FormContainer';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import { twj } from 'tw-to-css';
@@ -52,7 +51,7 @@ export default function ProfileScreen() {
     const submitHandler = (e) => {
         e.preventDefault()
 
-        if (password != confirmPassword) {
+        if (password !== confirmPassword) {
             setMessage ('Passwords do not match')
         } else {
             dispatch (updateUserProfile({
@@ -82,9 +81,9 @@ export default function ProfileScreen() {
                         <Form.Label>Full Name</Form.Label>
                         <Form.Control
                             required
-                            type='name'
+                            type='text'
                             placeholder='Enter Full Name'
-                            style={twj("border border-1 border-gray-200")}
+                            style={twj("border border-1 border-gray-300")}
                             value={ name }
                             onChange={(e) => setName(e.target.value)}
                         >
@@ -96,9 +95,9 @@ export default function ProfileScreen() {
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                             required
-                            type='name'
+                            type='text'
                             placeholder='Enter Username'
-                            style={twj("border border-1 border-gray-200")}
+                            style={twj("border border-1 border-gray-300")}
                             value={ username }
                             onChange={(e) => setUsername(e.target.value)}
                         >
@@ -112,7 +111,7 @@ export default function ProfileScreen() {
                             required
                             type='email'
                             placeholder='Enter Email'
-                            style={twj("border border-1 border-gray-200")}
+                            style={twj("border border-1 border-gray-300")}
                             value={ email }
                             onChange={(e) => setEmail(e.target.value)}
                         >
@@ -125,7 +124,7 @@ export default function ProfileScreen() {
                         <Form.Control
                             type='password'
                             placeholder='Enter Password'
-                            style={twj("border border-1 border-gray-200")}
+                            style={twj("border border-1 border-gray-300")}
                             value={ password }
                             onChange={(e) => setPassword(e.target.value)}
                         >
@@ -138,7 +137,7 @@ export default function ProfileScreen() {
                         <Form.Control
                             type='password'
                             placeholder='Confirm Password'
-                            style={twj("border border-1 border-gray-200")}
+                            style={twj("border border-1 border-gray-300")}
                             value={ confirmPassword }
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         >

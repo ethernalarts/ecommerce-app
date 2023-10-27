@@ -22,14 +22,20 @@ const reducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
 })
 
-const cartItemsFromStorage = localStorage.getItem('cartItems') ? 
-    JSON.parse(localStorage.getItem('cartItems')) : []
+const cartItemsFromStorage = JSON.parse(localStorage.getItem('cartItems')) || []
 
-const userInfoFromStorage = localStorage.getItem('userInfo') ? 
-    JSON.parse(localStorage.getItem('userInfo')) : null
+const userInfoFromStorage = JSON.parse(localStorage.getItem('userInfo')) || null
+
+const shippingAddressFromStorage = JSON.parse(localStorage.getItem('shippingAddress')) || []
+
+const paymentMethodFromStorage = JSON.parse(localStorage.getItem('paymentMethod')) || []
 
 const initialState = {
-    cart: { cartItems: cartItemsFromStorage },
+    cart: { 
+        cartItems: cartItemsFromStorage,
+        shippingAddress: shippingAddressFromStorage,
+        paymentMethod: paymentMethodFromStorage
+    },
     userLogin: { userInfo: userInfoFromStorage }
 }
 

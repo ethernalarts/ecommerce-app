@@ -49,7 +49,7 @@ export default function LoginScreen() {
                     <Form.Control
                         type='email'
                         placeholder='Enter Email'
-                        style={twj("border border-1 border-gray-200")}
+                        style={twj("border border-1 border-gray-300")}
                         value={ email }
                         onChange={(e) => setEmail(e.target.value)}
                     >
@@ -61,7 +61,7 @@ export default function LoginScreen() {
                     <Form.Label>Password</Form.Label>
                     <Form.Control
                         type='password'
-                        style={twj("border border-1 border-gray-200")}
+                        style={twj("border border-1 border-gray-300")}
                         placeholder='Enter Password'
                         value={ password }
                         onChange={(e) => setPassword(e.target.value)}
