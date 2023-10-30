@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link, redirect, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
+import { getMyOrdersList } from '../actions/orderActions';
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 import { twj } from 'tw-to-css';
+import naira from '../Naira';
 
 
 
@@ -30,14 +33,18 @@ export default function ProfileScreen() {
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const { success } = userUpdateProfile
+
+    const myOrdersList = useSelector(state => state.myOrdersList)
+    const { orders, error: errorOrders, loading: loadingOrders } = myOrdersList
     
     useEffect(() => {
         if ( !userInfo ) {
             history('/login')
         } else {
             if (!user || !user.name || success) {
-                dispatch ({ type: USER_UPDATE_PROFILE_RESET })
-                dispatch (getUserDetails('profile'))
+                dispatch({ type: USER_UPDATE_PROFILE_RESET })
+                dispatch(getUserDetails('profile'))
+                dispatch(getMyOrdersList())
             } else {
                 setName(user.name)
                 setUsername(user.username)
@@ -68,13 +75,13 @@ export default function ProfileScreen() {
     return (
         <Row>
             <Col md={3}>
-                <h2>User Profile</h2>
+                <h2 className='text-center'>User Profile</h2>
 
                 { message && <Message variant='danger'>{ message }</Message> }
                 { error && <Message variant='danger'>{ error }</Message> }
                 { loading && <Loader /> }
 
-                <Form onSubmit={ submitHandler }>
+                <Form onSubmit={ submitHandler } className='mt-4'>
 
                     {/* Name Form Group */}
                     <Form.Group controlId='name'>
@@ -91,7 +98,7 @@ export default function ProfileScreen() {
                     </Form.Group>
 
                     {/* Username Form Group */}
-                    <Form.Group controlId='username'>
+                    <Form.Group controlId='username' className='mt-4'>
                         <Form.Label>Username</Form.Label>
                         <Form.Control
                             required
@@ -156,7 +163,67 @@ export default function ProfileScreen() {
             </Col>
 
             <Col md={9}>
-                <h2>My Orders</h2>
+                <h2 className='text-center'>My Orders</h2>
+
+                {
+                    loadingOrders ? (
+                        <Loader />                        
+                    ) : errorOrders ? (
+                        <Message variant='danger'>{ errorOrders }</Message>
+                    ) : (
+                        <Table striped responsive className='table-sm mt-5'>
+                            <thead className='text-center'>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Date</th>
+                                    <th>Total Price</th>
+                                    <th>Paid</th>
+                                    <th>Delivered</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody className='text-center fw-medium'>
+                                {
+                                    orders.map(order => (
+                                        <tr key={ order._id }>
+                                            <td>{ order._id }</td>
+                                            <td>{ order.createdAt.substring(0,10) }</td>
+                                            <td>{ naira.format(order.totalPrice) }</td>
+                                            <td>
+                                                { 
+                                                    order.isPaid 
+                                                    ?   <span style={twj("text-green-600")}>
+                                                            { order.paidAt.substring(0,10) }
+                                                        </span>
+                                                    : (
+                                                        <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                                    ) 
+                                                }
+                                            </td>
+                                            <td>
+                                                { 
+                                                    order.isDelivered 
+                                                    ? order.deliveredAt.substring(0,10) 
+                                                    : (
+                                                        <i className='fas fa-times' style={{ color: 'red' }}></i>
+                                                    ) 
+                                                }
+                                            </td>
+                                            <td>
+                                                <LinkContainer to={`/order/${order._id}`}>
+                                                    <Button className='btn-sm'>
+                                                        Details
+                                                    </Button>
+                                                </LinkContainer>
+                                            </td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </Table>
+                    )
+                }
             </Col>
         </Row>
     )

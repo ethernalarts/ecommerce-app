@@ -11,7 +11,7 @@ export default function CheckoutSteps({ step1, step2, step3, step4 }) {
         <Nav 
             fill
             variant='pills'
-            className='my-4 justify-content-center container-fluid'
+            className='mb-4 justify-content-center container-fluid'
         >
             <Nav.Item>
                 { 

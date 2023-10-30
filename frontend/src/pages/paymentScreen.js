@@ -34,7 +34,7 @@ export default function PaymentScreen() {
 
             <h1 className='text-center'>Select Payment Method</h1>
 
-            <Form onSubmit={ submitHandler }>
+            <Form onSubmit={ submitHandler } className='fw-medium'>
                 <Form.Group>
                     <Form.Label as='legend'></Form.Label>
                     <Col>

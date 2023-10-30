@@ -15,6 +15,7 @@ import ShippingScreen from './pages/shippingScreen';
 import PaymentScreen from './pages/paymentScreen';
 import PlaceOrderScreen from './pages/placeOrderScreen';
 import OrderScreen from './pages/orderScreen';
+import UserListScreen from './pages/userListScreen';
 
 
 
@@ -26,7 +27,7 @@ function App() {
             <Header />
 
             {/* body component */}
-            <main style={twj("font-sans bg-gray-200 py-3")}>
+            <main style={twj("font-sans bg-gray-300 py-3")}>
                 <Container>
                     <Routes>
                         <Route path='/' Component={ HomeScreen } exact />
@@ -37,6 +38,7 @@ function App() {
                         <Route path='/payment' Component={ PaymentScreen } />
                         <Route path='/placeorder' Component={ PlaceOrderScreen } />
                         <Route path='/order/:id' Component={ OrderScreen } />
+                        <Route path='/admin/userlist' Component={ UserListScreen } />
                         
                         <Route path='/cart/:id?' Component={ CartScreen } />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />

@@ -39,9 +39,9 @@ function CartScreen() {
 
     return (
         <Row>
-            <h1 className='text-center mb-4'>Shopping Cart</h1>
+            <h1 className='text-center mb-4'>Your Shopping Cart</h1>
 
-            <Col md={8}>
+            <Col md={8} className='mt-4'>
                 { 
                     cartItems.length === 0 ? (
                     <Message variant="info">
@@ -104,7 +104,7 @@ function CartScreen() {
                 }
             </Col>
             
-            <Col md={4}>
+            <Col md={4} className='mt-4'>
                 <Card>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
