@@ -11,10 +11,10 @@ import { addToCart } from '../actions/cartActions';
 
 export default function Product({ product }) {
     const dispatch = useDispatch()
-    const qty = 1
+    //const qty = 1
     
     const addToCartHandler = () => {
-        dispatch (addToCart(product._id, qty))
+        dispatch (addToCart(product._id, 1))
     }
 
     return (
@@ -25,18 +25,18 @@ export default function Product({ product }) {
 
             <Card.Body>
                 <Link to={`/product/${product._id}`}>
-                    <Card.Title as="div">
-                        <strong>{ product.name }</strong>
+                    <Card.Title as="div" style={twj("font-sans font-normal text-gray-700 text-center")}>
+                        { product.name }
                     </Card.Title>
                 </Link>
 
-                <Card.Text as="div">
+                {/* <Card.Text as="div">
                     <div className='my-3'>
                         <Rating value={product.rating} text={`(${product.numReviews})`} color={'#f8e825'} />
                     </div>
-                </Card.Text>
+                </Card.Text> */}
 
-                <Card.Text style={twj("font-sans text-gray-600 text-center font-bold text-2xl")}>
+                <Card.Text style={twj("font-sans text-center my-6 font-bold text-2xl")}>
                     { naira.format(product.price) }
                 </Card.Text>
 
@@ -44,7 +44,8 @@ export default function Product({ product }) {
                     <Button 
                         onClick={ addToCartHandler }
                         type='button' 
-                        className='my-2 btn btn-warning w-100 btn-block' 
+                        className='my-2 btn-warning w-100'
+                        //style={twj("font-sans font-medium bg-orange-500 shadow-md shadow-orange-400/50")}
                         disabled={ product.countInStock === 0 }>
                         Add to Cart
                     </Button>

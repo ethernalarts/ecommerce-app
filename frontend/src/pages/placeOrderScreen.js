@@ -8,31 +8,33 @@ import naira from '../Naira';
 import { twj } from 'tw-to-css';
 import FormContainer from '../components/FormContainer';
 import { createOrder } from '../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 
 
-export default function PlaceOrderScreen() {
-    
-    const orderCreate = useSelector(state => state.orderCreate)
-    const { order, error, success } = orderCreate
+export default function PlaceOrderScreen() {    
 
     const dispatch = useDispatch()
     const history = useNavigate()
+
     const cart = useSelector(state => state.cart)
+    const orderCreate = useSelector(state => state.orderCreate)
+    const { order, error, success } = orderCreate
 
     cart.itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-    cart.shippingPrice = cart.itemsPrice > 200000 ? 0 : 3000
-    cart.taxPrice = (0.07) * cart.itemsPrice
+    cart.shippingPrice = (cart.itemsPrice > 200000 ? 0 : 3000).toFixed(0)
+    cart.taxPrice = ((0.075) * cart.itemsPrice).toFixed(0)
 
     cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)
 
-    if (!cart.paymentMethod) {
+    if ( !cart.paymentMethod ) {
         history('/payment')
     }
 
     useEffect(() => {
         if (success) {
             history(`/order/${order._id}`)
+            dispatch({ type: ORDER_CREATE_RESET })
         }
     }, [ success, history ])
     
@@ -53,7 +55,7 @@ export default function PlaceOrderScreen() {
                 <CheckoutSteps step1 step2 step3 step4 />
             </FormContainer>
 
-            <Row>
+            <Row className='mt-4'>
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>

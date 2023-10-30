@@ -24,7 +24,7 @@ export default function HomeScreen() {
     
     return (
         <div style={twj("font-sans mt-8")}>
-            <h1 style={twj("text-3xl font-medium text-gray-600")}>Our Latest Products</h1>
+            <h1 style={twj("text-3xl font-medium text-gray-700")}>New Arrivals</h1>
             {
                 loading ? <Loader style={twj("mt-48")} />
                 :   error ? <Message variant="danger">{ error }</Message>

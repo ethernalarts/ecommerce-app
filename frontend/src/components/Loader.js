@@ -8,7 +8,8 @@ export default function Loader() {
         <Spinner 
             animation="border" 
             role="status"
-            style={twj("mx-auto block h-[100px] w-[100px]")}
+            className='d-flex mx-auto justify-content-center spinner-grow m-5'
+            style={twj("block h-[60px] w-[60px] text-blue-600")}
         >
             <span className="visually-hidden">Loading...</span>
 

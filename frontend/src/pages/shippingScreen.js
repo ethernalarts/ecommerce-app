@@ -18,6 +18,7 @@ export default function ShippingScreen() {
 
     const [address, setAddress] = useState( shippingAddress.address )
     const [city, setCity] = useState( shippingAddress.city )
+    const [state, setState] = useState( shippingAddress.state )
     const [postalCode, setPostalCode] = useState( shippingAddress.postalCode )
     const [country, setCountry] = useState( shippingAddress.country )
 
@@ -33,7 +34,7 @@ export default function ShippingScreen() {
         <FormContainer>
             <CheckoutSteps step1 step2 />
 
-            <h1 className='text-center'>Shipping</h1>
+            <h1 className='text-center'>Shipping Address</h1>
 
             {/* Address */}
             <Form onSubmit={ submitHandler }>
@@ -60,6 +61,20 @@ export default function ShippingScreen() {
                         style={twj("border border-1 border-gray-300")}
                         value={ city || '' }
                         onChange={(e) => setCity(e.target.value)}
+                    >
+                    </Form.Control>
+                </Form.Group>
+
+                {/* State */}
+                <Form.Group controlId='state' className='mt-4'>
+                    <Form.Label>State</Form.Label>
+                    <Form.Control
+                        required
+                        type='text'
+                        placeholder='Enter State'
+                        style={twj("border border-1 border-gray-300")}
+                        value={ state || '' }
+                        onChange={(e) => setState(e.target.value)}
                     >
                     </Form.Control>
                 </Form.Group>
@@ -96,9 +111,9 @@ export default function ShippingScreen() {
                 <Button
                     type='submit'
                     variant='primary'
-                    className='my-4 py-3 btn-dark w-100'
+                    className='my-4 py-3 w-100'
                 >
-                    Continue <i className='fas fa-arrow-right mx-3'></i>
+                    Continue
                 </Button>
             </Form>
         </FormContainer>

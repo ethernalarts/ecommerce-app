@@ -32,9 +32,11 @@ export default function PaymentScreen() {
         <FormContainer>
             <CheckoutSteps step1 step2 step3 />
 
+            <h1 className='text-center'>Select Payment Method</h1>
+
             <Form onSubmit={ submitHandler }>
                 <Form.Group>
-                    <Form.Label as='legend'>Select Payment Method</Form.Label>
+                    <Form.Label as='legend'></Form.Label>
                     <Col>
                         <Form.Check
                             type='radio'

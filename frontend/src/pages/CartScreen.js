@@ -10,11 +10,12 @@ import { twj } from 'tw-to-css';
 
 
 function CartScreen() {
+    
     const dispatch = useDispatch()
     const history = useNavigate()
+
     const location = useLocation()
     const { id } = useParams()
-
     const product_id = id
 
     const qty = location.search ? Number(new URLSearchParams(location.search).get('qty')) : 1
@@ -38,8 +39,9 @@ function CartScreen() {
 
     return (
         <Row>
+            <h1 className='text-center mb-4'>Shopping Cart</h1>
+
             <Col md={8}>
-                <h1>Shopping Cart</h1>
                 { 
                     cartItems.length === 0 ? (
                     <Message variant="info">
@@ -129,7 +131,7 @@ function CartScreen() {
                 </Card>
             </Col>
 
-            <Col className='m-4 p-2'>
+            <Col className='p-2'>
                 <Link to="/">
                     <Button className='btn btn-dark'>
                         <i className='fas fa-arrow-left'></i>
