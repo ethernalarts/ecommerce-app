@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listProducts, deleteProduct } from '../actions/productActions';
+import { listProducts, deleteProduct, createProduct } from '../actions/productActions';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants';
 import naira from '../Naira';
 import { twj } from 'tw-to-css';
 
@@ -19,28 +20,43 @@ export default function ProductListScreen() {
     const { loading, products, error } = useSelector(state => state.productList)
     
     const { userInfo } = useSelector(state => state.userLogin)
+
     const { 
         loading: loadingDelete, 
         success: successDelete,
         error: errorDelete
     } = useSelector(state => state.productDelete)
 
+    const { 
+        loading: loadingCreate, 
+        success: successCreate,
+        error: errorCreate,
+        product: createdProduct
+    } = useSelector(state => state.productCreate)
+
     useEffect(() => {
-        if ( userInfo && userInfo.isAdmin ) {
-            dispatch(listProducts())
-        } else {
+        dispatch({ type: PRODUCT_CREATE_RESET })
+        
+        if ( !userInfo.isAdmin ) {
             history('/login')
         }
-    }, [ dispatch, history, userInfo, successDelete ])
+
+        if ( successCreate ) {
+            history(`/admin/product/${createdProduct._id}/edit`)
+        } else {
+            dispatch(listProducts())
+        }
+
+    }, [ dispatch, history, userInfo, successDelete, successCreate, createdProduct ])
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure? This action is irreversible')) {            
             dispatch(deleteProduct(id))
         }
     }
-
-    const createProductHandler = ( product ) => {
-        //pass
+ 
+    const createProductHandler = () => {
+        dispatch(createProduct())
     }
 
     
@@ -57,60 +73,63 @@ export default function ProductListScreen() {
                     </Button>
                 </Col>
             </Row>
-
-            { loadingDelete && <Loader /> }
+            
             { errorDelete && <Message variant='danger'>{ errorDelete }</Message>}
+            
+            { errorCreate && <Message variant='danger'>{ errorCreate }</Message>}
 
-            {
-                loading 
-                ? ( <Loader /> )
-                    :   error 
-                        ? ( <Message variant='danger'>{ error }</Message> )
-                            : (
-                                <Table striped hover bordered responsive className='table-sm mt-4'>
-                                    <thead className='text-center'>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>NAME</th>
-                                            <th>PRICE</th>
-                                            <th>CATEGORY</th>
-                                            <th>BRAND</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
+            { 
+                loadingDelete || loadingCreate ? 
+                <Loader /> : (
+                    loading 
+                    ? ( <Loader /> )
+                        :   error 
+                            ? ( <Message variant='danger'>{ error }</Message> )
+                                : (
+                                    <Table striped hover bordered responsive className='table-sm mt-4'>
+                                        <thead className='text-center'>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>NAME</th>
+                                                <th>PRICE</th>
+                                                <th>CATEGORY</th>
+                                                <th>BRAND</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
 
-                                    <tbody className='text-center fw-medium'>
-                                        {
-                                            products.map(product => (
-                                                <tr key={ product._id }>
-                                                    <td>{ product._id }</td>
-                                                    <td>{ product.name }</td>
-                                                    <td>{ naira.format( product.price ) }</td>
-                                                    <td>{ product.category }</td>
-                                                    <td>{ product.brand }</td>
-                                                    <td>
-                                                        <LinkContainer to={`/admin/product/${ product._id }/edit`}>
-                                                            <Button variant='light' className='btn-sm'>
-                                                                <i className='fas fa-pen' style={{ color: 'green'}}></i>
+                                        <tbody className='text-center fw-medium'>
+                                            {
+                                                products.map(product => (
+                                                    <tr key={ product._id }>
+                                                        <td>{ product._id }</td>
+                                                        <td>{ product.name }</td>
+                                                        <td>{ naira.format( product.price ) }</td>
+                                                        <td>{ product.category }</td>
+                                                        <td>{ product.brand }</td>
+                                                        <td>
+                                                            <LinkContainer to={`/admin/product/${ product._id }/edit`}>
+                                                                <Button variant='light' className='btn-sm'>
+                                                                    <i className='fas fa-pen' style={{ color: 'green'}}></i>
+                                                                </Button>
+                                                            </LinkContainer>
+                                                            
+                                                            <Button 
+                                                                variant='danger' 
+                                                                className='btn-sm'
+                                                                onClick={() => deleteHandler( product._id )}
+                                                            >
+                                                                <i class="fas fa-trash"></i>
                                                             </Button>
-                                                        </LinkContainer>
-                                                        
-                                                        <Button 
-                                                            variant='danger' 
-                                                            className='btn-sm'
-                                                            onClick={() => deleteHandler( product._id )}
-                                                        >
-                                                            <i class="fas fa-trash"></i>
-                                                        </Button>
-                                                    </td>
-                                                </tr>
-                                            ))
-                                        }
-                                    </tbody>
-                                </Table>
-                            )
+                                                        </td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </Table>
+                                )
+                    )
             }
-
         </div>
     )
 }

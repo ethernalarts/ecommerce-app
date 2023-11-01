@@ -18,6 +18,7 @@ import OrderScreen from './pages/orderScreen';
 import UserListScreen from './pages/userListScreen';
 import UserEditScreen from './pages/userEditScreen';
 import ProductListScreen from './pages/productListScreen';
+import ProductEditScreen from './pages/productEditScreen';
 
 
 
@@ -42,7 +43,8 @@ function App() {
                         <Route path='/order/:id' Component={ OrderScreen } />
                         <Route path='/admin/userlist' Component={ UserListScreen } />
 
-                        <Route path='/admin/productlist' Component={ ProductListScreen } />                        
+                        <Route path='/admin/productlist' Component={ ProductListScreen } />                   
+                        <Route path='/admin/product/:id/edit' Component={ ProductEditScreen } />
                         
                         <Route path='/cart/:id?' Component={ CartScreen } />
                         <Route path='/admin/user/:id/edit' Component={ UserEditScreen } />

@@ -63,8 +63,8 @@ export default function UserEditScreen() {
     return (
         <div>
             <Link to='/admin/userlist'>
-                <Button variant='light'>
-                    Go Back
+                <Button variant='dark'>
+                    <i className='fas fa-angle-left'></i><span className='ms-2'>Go Back</span>
                 </Button>
             </Link>
 
@@ -90,7 +90,7 @@ export default function UserEditScreen() {
                                         <Form.Control
                                             type='text'
                                             placeholder='Enter Full Name'
-                                            style={twj("border border-1 border-gray-300")}
+                                            style={twj("font-medium border border-1 border-gray-400")}
                                             value={ name }
                                             onChange={(e) => setName(e.target.value)}
                                         >
@@ -103,7 +103,7 @@ export default function UserEditScreen() {
                                         <Form.Control
                                             type='text'
                                             placeholder='Enter Username'
-                                            style={twj("border border-1 border-gray-300")}
+                                            style={twj("font-medium border border-1 border-gray-400")}
                                             value={ username }
                                             onChange={(e) => setUserName(e.target.value)}
                                         >
@@ -116,7 +116,7 @@ export default function UserEditScreen() {
                                         <Form.Control
                                             type='email'
                                             placeholder='Enter Email'
-                                            style={twj("border border-1 border-gray-300")}
+                                            style={twj("font-medium border border-1 border-gray-400")}
                                             value={ email }
                                             onChange={(e) => setEmail(e.target.value)}
                                         >
@@ -124,11 +124,11 @@ export default function UserEditScreen() {
                                     </Form.Group>
                                     
                                     {/* Is Admin Form Group */}
-                                    <Form.Group controlId='isadmin' className='mt-4'>
-                                        <Form.Label>Is Admin</Form.Label>
+                                    <Form.Group controlId='isadmin' className='mt-4'>                                        
                                         <Form.Check
                                             type='checkbox'
-                                            style={twj("border border-1 border-gray-300")}
+                                            label='Is Admin'
+                                            style={twj("font-medium border border-1 border-gray-400")}
                                             checked={ isAdmin }
                                             onChange={(e) => setIsAdmin(e.target.checked)}
                                         >
