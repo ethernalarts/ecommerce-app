@@ -25,7 +25,7 @@ export default function ShippingScreen() {
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch (saveShippingAddress({
-            address, city, postalCode, country
+            address, city, state, postalCode, country
         }))
         history('/payment')
     }
@@ -39,20 +39,20 @@ export default function ShippingScreen() {
 
             {/* Address */}
             <Form onSubmit={ submitHandler } className='fw-medium'>
-                    <Row>                        
-                        <Form.Group controlId='address'>
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control
-                                required
-                                type='text'
-                                placeholder='Enter Address'
-                                style={twj("border border-1 border-gray-300")}
-                                value={ address || '' }
-                                onChange={(e) => setAddress(e.target.value)}
-                            >
-                            </Form.Control>
-                        </Form.Group>
-                    </Row>
+                <Row>                        
+                    <Form.Group controlId='address'>
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control
+                            required
+                            type='text'
+                            placeholder='Enter Address'
+                            style={twj("border border-1 border-gray-300")}
+                            value={ address || '' }
+                            onChange={(e) => setAddress(e.target.value)}
+                        >
+                        </Form.Control>
+                    </Form.Group>
+                </Row>
 
                 <Row>
                     {/* City */}

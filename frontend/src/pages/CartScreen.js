@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Row, Col, Image, ListGroup, Button, Form, Card } from 'react-bootstrap';
+import { Row, Col, Image, ListGroup, Button, Form, Card, Table } from 'react-bootstrap';
 import Message from '../components/Message';
 import naira from '../Naira';
 import { addToCart, removeFromCart } from '../actions/cartActions';
@@ -37,75 +37,89 @@ function CartScreen() {
         history('/login?redirect=/shipping')
     }
 
-    return (
-        <Row>
-            <h1 className='text-center mb-4'>Your Shopping Cart</h1>
 
-            <Col md={8} className='mt-4'>
-                { 
-                    cartItems.length === 0 ? (
-                    <Message variant="info">
-                        Your cart is empty. <Link to="/">Start Shopping</Link>
-                    </Message>
-                    ) : 
-                        (
-                            <ListGroup variant="flush">
+    return (
+        <div>
+            <h1 className='text-center mb-4'>Your Cart Items</h1>
+
+            
+            { 
+                cartItems.length === 0 ? (
+                <Message variant="info" className='mt-4 fw-medium'>
+                    Your cart is empty. <Link to="/">Start Shopping</Link>
+                </Message>
+                ) : 
+                    (
+                        <Table striped hover responsive className="mt-4 table-md fw-medium" style={twj("shadow-md")}>
+                            <thead className='text-center'>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Product Image</th>
+                                    <th>Product Name</th>
+                                    <th>Product Price</th>
+                                    <th>Quantity</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
                                 {
                                     cartItems.map(item => (
-                                        <ListGroup.Item key={ item.product_id }>
-                                            <Row>
-                                                <Col md={2}>
-                                                    <Image src={ item.image } alt={ item.name } fluid />
-                                                </Col>
+                                        <tr key={ item.product_id }>
+                                            <td>
+                                                { item.product_id }
+                                            </td>
 
-                                                <Col md={3}>
-                                                    <Link to={`/products/${ item.product_id }`} >
-                                                        { item.name }
-                                                    </Link>
-                                                </Col>
+                                            <td>
+                                                <Image src={ item.image } alt={ item.name } style={twj("w-28")} fluid />
+                                            </td>
 
-                                                <Col md={2}>
-                                                    { naira.format(item.price) }
-                                                </Col>
+                                            <td>
+                                                <Link to={`/products/${ item.product_id }`} >
+                                                    { item.name }
+                                                </Link>
+                                            </td>
 
-                                                <Col md={2}>
-                                                    <Form.Control
-                                                        as="select"
-                                                        className='border-1'
-                                                        value={ item.qty }
-                                                        onChange={ (event) => dispatch( addToCart( item.product_id, Number(event.target.value) ) ) }
-                                                    >
-                                                        {
-                                                            [...Array(item.countInStock).keys()].map((x) => (
-                                                                <option key={ x + 1} value={ x + 1}>
-                                                                    { x + 1 }
-                                                                </option>
-                                                            ))
-                                                        }
-                                                    </Form.Control>
-                                                </Col>
+                                            <td>
+                                                { naira.format(item.price) }
+                                            </td>
 
-                                                <Col md={3}>
-                                                    <Button 
-                                                        type='button' 
-                                                        variant='light'
-                                                        className='text-danger'
-                                                        onClick={() => removeFromCartHandler( item.product_id )}
-                                                    >
-                                                        <i className='fas fa-trash' style={twj("mr-2")}></i>REMOVE
-                                                    </Button>
-                                                </Col>
-                                            </Row>
-                                        </ListGroup.Item>
+                                            <td>
+                                                <Form.Control
+                                                    as="select"
+                                                    className='border-1'
+                                                    value={ item.qty }
+                                                    onChange={ (event) => dispatch( addToCart( item.product_id, Number(event.target.value) ) ) }
+                                                >
+                                                    {
+                                                        [...Array(item.countInStock).keys()].map((x) => (
+                                                            <option key={ x + 1} value={ x + 1}>
+                                                                { x + 1 }
+                                                            </option>
+                                                        ))
+                                                    }
+                                                </Form.Control>
+                                            </td>
+
+                                            <td>
+                                                <Button 
+                                                    type='button' 
+                                                    variant='danger'
+                                                    onClick={() => removeFromCartHandler( item.product_id )}
+                                                >
+                                                    <i className='fas fa-trash' style={twj("mr-2")}></i>Remove
+                                                </Button>
+                                            </td>
+                                        </tr>
                                     ))
                                 }
-                            </ListGroup>
-                        )
-                }
-            </Col>
+                            </tbody>
+                        </Table>
+                    )
+            }
             
-            <Col md={4} className='mt-4'>
-                <Card>
+            <div md={3} className='w-50 mt-4 mb-4 text-center mx-auto'>
+                <Card style={twj("")}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Subtotal ({ cartItems.reduce((acc, item) => acc + item.qty, 0) }) items</h2>
@@ -120,7 +134,7 @@ function CartScreen() {
                         <ListGroup.Item>
                             <Button
                                 type='button'    
-                                className='btn-block w-100'
+                                className='btn-block w-100 mt-4 mb-4'
                                 disabled={ cartItems.length === 0 }
                                 onClick={ checkoutHandler }
                             >
@@ -129,16 +143,14 @@ function CartScreen() {
                         </ListGroup.Item>
                     </ListGroup>
                 </Card>
-            </Col>
+            </div>
 
-            <Col className='p-2'>
-                <Link to="/">
-                    <Button className='btn btn-dark'>
-                        <i className='fas fa-arrow-left'></i>
-                    </Button>
-                </Link>
-            </Col>
-        </Row>
+            <Link to="/">
+                <Button className='btn btn-dark mt-4'>
+                    <i className='fas fa-angle-left'></i><span className='ms-2'>Go Back</span>
+                </Button>
+            </Link>
+        </div>
     )
 }
 

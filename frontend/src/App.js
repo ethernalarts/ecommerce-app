@@ -16,6 +16,8 @@ import PaymentScreen from './pages/paymentScreen';
 import PlaceOrderScreen from './pages/placeOrderScreen';
 import OrderScreen from './pages/orderScreen';
 import UserListScreen from './pages/userListScreen';
+import UserEditScreen from './pages/userEditScreen';
+import ProductListScreen from './pages/productListScreen';
 
 
 
@@ -39,8 +41,11 @@ function App() {
                         <Route path='/placeorder' Component={ PlaceOrderScreen } />
                         <Route path='/order/:id' Component={ OrderScreen } />
                         <Route path='/admin/userlist' Component={ UserListScreen } />
+
+                        <Route path='/admin/productlist' Component={ ProductListScreen } />                        
                         
                         <Route path='/cart/:id?' Component={ CartScreen } />
+                        <Route path='/admin/user/:id/edit' Component={ UserEditScreen } />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />
                     </Routes>
                 </Container>

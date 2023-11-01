@@ -47,85 +47,90 @@ export default function RegisterScreen() {
 
             { message && <Message variant='danger'>{ message }</Message> }
             { error && <Message variant='danger'>{ error }</Message> }
-            { loading && <Loader /> }
 
-            <Form onSubmit={ submitHandler }>
+            { 
+                loading ? 
+                    <Loader /> 
+                        : (
+                            <Form onSubmit={ submitHandler } className='fw-medium'>
 
-                {/* Name Form Group */}
-                <Form.Group controlId='name'>
-                    <Form.Label>Full Name</Form.Label>
-                    <Form.Control
-                        required
-                        type='name'
-                        placeholder='Enter Full Name'
-                        style={twj("border border-1 border-gray-300")}
-                        value={ name }
-                        onChange={(e) => setName(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                {/* Name Form Group */}
+                                <Form.Group controlId='name'>
+                                    <Form.Label>Full Name</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='name'
+                                        placeholder='Enter Full Name'
+                                        style={twj("font-medium border border-1 border-gray-300")}
+                                        value={ name }
+                                        onChange={(e) => setName(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Email Form Group */}
-                <Form.Group controlId='email' className='mt-4'>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                        required
-                        type='email'
-                        placeholder='Enter Email'
-                        style={twj("border border-1 border-gray-300")}
-                        value={ email }
-                        onChange={(e) => setEmail(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                {/* Email Form Group */}
+                                <Form.Group controlId='email' className='mt-4'>
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='email'
+                                        placeholder='Enter Email'
+                                        style={twj("font-medium border border-1 border-gray-300")}
+                                        value={ email }
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Password Form Group */}
-                <Form.Group controlId='password' className='mt-4'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        required
-                        type='password'
-                        placeholder='Enter Password'
-                        style={twj("border border-1 border-gray-300")}
-                        value={ password }
-                        onChange={(e) => setPassword(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                {/* Password Form Group */}
+                                <Form.Group controlId='password' className='mt-4'>
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='password'
+                                        placeholder='Enter Password'
+                                        style={twj("font-medium border border-1 border-gray-300")}
+                                        value={ password }
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Confirm Password Form Group */}
-                <Form.Group controlId='passwordConfirm' className='mt-4'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        required
-                        type='password'
-                        placeholder='Confirm Password'
-                        style={twj("border border-1 border-gray-200")}
-                        value={ confirmPassword }
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                {/* Confirm Password Form Group */}
+                                <Form.Group controlId='passwordConfirm' className='mt-4'>
+                                    <Form.Label>Confirm Password</Form.Label>
+                                    <Form.Control
+                                        required
+                                        type='password'
+                                        placeholder='Confirm Password'
+                                        style={twj("font-medium border border-1 border-gray-200")}
+                                        value={ confirmPassword }
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Submit Button */}
-                <Button
-                    type='submit'
-                    variant='primary'
-                    className='my-4 py-3 btn-dark w-100'
-                >
-                    Register
-                </Button>
-            </Form>
+                                {/* Submit Button */}
+                                <Button
+                                    type='submit'
+                                    variant='primary'
+                                    className='my-4 py-3 btn-dark w-100'
+                                >
+                                    Register
+                                </Button>
 
-            <Row className='py-3 text-center'>
-                <Col>
-                    Already a Customer? 
-                    <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} className='mx-3'>
-                        Sign In
-                    </Link>
-                </Col>
-            </Row>
-        
+                                <Row className='py-3 text-center'>
+                                    <Col>
+                                        Already a Customer? 
+                                        <Link to={redirect ? `/login?redirect=${redirect}` : '/login'} className='mx-3'>
+                                            Sign In
+                                        </Link>
+                                    </Col>
+                                </Row>
+                            </Form>
+                        )
+            }
+                    
         </FormContainer>
     )
 }

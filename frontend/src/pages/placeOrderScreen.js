@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Row, Col, Image, Card, ListGroup } from 'react-bootstrap';
 import Message from '../components/Message';
@@ -12,7 +12,7 @@ import { ORDER_CREATE_RESET } from '../constants/orderConstants';
 
 
 
-export default function PlaceOrderScreen() {    
+export default function PlaceOrderScreen() {
 
     const dispatch = useDispatch()
     const history = useNavigate()
@@ -58,16 +58,18 @@ export default function PlaceOrderScreen() {
             <Row className='mt-4 fw-medium'>
                 <Col md={8}>
                     <ListGroup variant='flush'>
-                        <ListGroup.Item>
+                        <ListGroup.Item className='px-4'>
                             <h2>Shipping</h2>
 
                             <p> 
-                                Address: { cart.shippingAddress.address }, { cart.shippingAddress.city },
-                                { cart.shippingAddress.postalCode }, { cart.shippingAddress.country }
+                                Address: 
+                                { cart.shippingAddress.address }, { cart.shippingAddress.city },
+                                { cart.shippingAddress.postalCode }, { cart.shippingAddress.state },
+                                { cart.shippingAddress.country }
                             </p>
                         </ListGroup.Item>
 
-                        <ListGroup.Item>
+                        <ListGroup.Item className='px-4'>
                             <h2>Payment</h2>
 
                             <p>
@@ -75,7 +77,7 @@ export default function PlaceOrderScreen() {
                             </p>
                         </ListGroup.Item>
 
-                        <ListGroup.Item>
+                        <ListGroup.Item className='px-4 pb-3'>
                             <h2>Cart Items</h2>
                             
                             {
@@ -110,7 +112,7 @@ export default function PlaceOrderScreen() {
 
                 <Col md={4}>
                     <Card>
-                        <ListGroup variant='flush'>
+                        <ListGroup variant='flush' className='px-2'>
                             <ListGroup.Item>
                                 <h2 className='text-center'>Order Summary</h2>
                             </ListGroup.Item>
@@ -155,7 +157,7 @@ export default function PlaceOrderScreen() {
                                 <Button 
                                     type='button' 
                                     variant='primary'
-                                    className='w-100'
+                                    className='w-100 mb-2'
                                     onClick={ placeOrderHandler }
                                     disabled={ cart.cartItems === 0 }
                                 >

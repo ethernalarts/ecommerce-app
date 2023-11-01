@@ -5,7 +5,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 function Footer() {
     return (
         <footer>
-            <Container>
+            <Container className='mt-8'>
                 <Row>
                     <Col className='text-center py-3'>
                         Copyright &copy; 2023 TechShop

@@ -1,75 +1,95 @@
 import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Table, Button } from 'react-bootstrap';
+import { Table, Button, Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
-import { listUsers, deleteUser } from '../actions/userActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
+import naira from '../Naira';
+import { twj } from 'tw-to-css';
 
 
-export default function UserListScreen() {
+
+export default function ProductListScreen() {
 
     const dispatch = useDispatch()
     const history = useNavigate()
 
-    const usersList = useSelector(state => state.usersList)
-    const { loading, users, error } = usersList
+    const { loading, products, error } = useSelector(state => state.productList)
     
     const { userInfo } = useSelector(state => state.userLogin)
-    const { success: successDelete } = useSelector(state => state.userDelete)
+    const { 
+        loading: loadingDelete, 
+        success: successDelete,
+        error: errorDelete
+    } = useSelector(state => state.productDelete)
 
     useEffect(() => {
         if ( userInfo && userInfo.isAdmin ) {
-            dispatch(listUsers())
+            dispatch(listProducts())
         } else {
             history('/login')
         }
-    }, [ dispatch, history, successDelete, userInfo ])
+    }, [ dispatch, history, userInfo, successDelete ])
 
     const deleteHandler = (id) => {
         if (window.confirm('Are you sure? This action is irreversible')) {            
-            dispatch(deleteUser(id))
+            dispatch(deleteProduct(id))
         }
+    }
+
+    const createProductHandler = ( product ) => {
+        //pass
     }
 
     
     return (
         <div>
-            <h1 className='text-center'>All Users</h1>
+            <Row className='align-items-center'>
+                <Col>
+                    <h1>Products</h1>
+                </Col>
+
+                <Col style={twj("text-right")}>
+                    <Button className='my-3' onClick={ createProductHandler }>
+                        <i className='fas fa-plus'></i><span className='ms-2'>Create Product</span>
+                    </Button>
+                </Col>
+            </Row>
+
+            { loadingDelete && <Loader /> }
+            { errorDelete && <Message variant='danger'>{ errorDelete }</Message>}
+
             {
                 loading 
                 ? ( <Loader /> )
                     :   error 
                         ? ( <Message variant='danger'>{ error }</Message> )
                             : (
-                                <Table striped hover responsive className='table-sm mt-4'>
+                                <Table striped hover bordered responsive className='table-sm mt-4'>
                                     <thead className='text-center'>
                                         <tr>
                                             <th>ID</th>
                                             <th>NAME</th>
-                                            <th>EMAIL</th>
-                                            <th>ADMIN</th>
+                                            <th>PRICE</th>
+                                            <th>CATEGORY</th>
+                                            <th>BRAND</th>
                                             <th></th>
                                         </tr>
                                     </thead>
 
                                     <tbody className='text-center fw-medium'>
                                         {
-                                            users.map(user => (
-                                                <tr key={ user._id }>
-                                                    <td>{ user._id }</td>
-                                                    <td>{ user.name }</td>
-                                                    <td>{ user.email }</td>
+                                            products.map(product => (
+                                                <tr key={ product._id }>
+                                                    <td>{ product._id }</td>
+                                                    <td>{ product.name }</td>
+                                                    <td>{ naira.format( product.price ) }</td>
+                                                    <td>{ product.category }</td>
+                                                    <td>{ product.brand }</td>
                                                     <td>
-                                                        { user.isAdmin ? (
-                                                            <i className='fas fa-check' style={{ color: 'green'}}></i>
-                                                        ) : (
-                                                            <i className='fas fa-xmark' style={{ color: 'red'}}></i>
-                                                        )}
-                                                    </td>
-                                                    <td>
-                                                        <LinkContainer to={`/admin/user/${ user._id }/edit`}>
+                                                        <LinkContainer to={`/admin/product/${ product._id }/edit`}>
                                                             <Button variant='light' className='btn-sm'>
                                                                 <i className='fas fa-pen' style={{ color: 'green'}}></i>
                                                             </Button>
@@ -78,7 +98,7 @@ export default function UserListScreen() {
                                                         <Button 
                                                             variant='danger' 
                                                             className='btn-sm'
-                                                            onClick={() => deleteHandler( user._id )}
+                                                            onClick={() => deleteHandler( product._id )}
                                                         >
                                                             <i class="fas fa-trash"></i>
                                                         </Button>

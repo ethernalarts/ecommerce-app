@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser 
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from api.serializers import *
@@ -64,11 +64,36 @@ def getUserProfile(request):
     return Response(serializer.data)
 
 
+@api_view(['PUT'])
+@permission_classes([IsAdminUser])
+def updateUser(request, pk):
+    user = User.objects.get(id=pk)
+
+    user.first_name = request.data['name']
+    user.username = request.data['username']
+    user.email = request.data['email']
+    user.is_staff = request.data['isAdmin']
+        
+    user.save()    
+    
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 @permission_classes([IsAdminUser])
 def getUsers(request):
     users = User.objects.all()
     serializer = UserSerializer(users, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAdminUser])
+def getUserById(request, pk):
+    user = User.objects.get(id=pk)
+    serializer = UserSerializer(user, many=False)
     return Response(serializer.data)
 
 

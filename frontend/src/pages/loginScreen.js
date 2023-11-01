@@ -39,53 +39,58 @@ export default function LoginScreen() {
             <h1 className='text-center'>Sign In</h1>
 
             { error && <Message variant='danger'>{ error }</Message> }
-            { loading && <Loader /> }
+            
+            { 
+                loading ? 
+                    <Loader /> 
+                        : (
+                            <Form onSubmit={ submitHandler } className='fw-medium'>
 
-            <Form onSubmit={ submitHandler }>
+                                {/* Email Form Group */}
+                                <Form.Group controlId='email'>
+                                    <Form.Label>Email Address</Form.Label>
+                                    <Form.Control
+                                        type='email'
+                                        placeholder='Enter Email'
+                                        style={twj("font-medium border border-1 border-gray-300")}
+                                        value={ email }
+                                        onChange={(e) => setEmail(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Email Form Group */}
-                <Form.Group controlId='email'>
-                    <Form.Label>Email Address</Form.Label>
-                    <Form.Control
-                        type='email'
-                        placeholder='Enter Email'
-                        style={twj("border border-1 border-gray-300")}
-                        value={ email }
-                        onChange={(e) => setEmail(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                {/* Password Form Group */}
+                                <Form.Group controlId='password' className='mt-4'>
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control
+                                        type='password'
+                                        style={twj("font-medium border border-1 border-gray-300")}
+                                        placeholder='Enter Password'
+                                        value={ password }
+                                        onChange={(e) => setPassword(e.target.value)}
+                                    >
+                                    </Form.Control>
+                                </Form.Group>
 
-                {/* Password Form Group */}
-                <Form.Group controlId='password' className='mt-4'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='password'
-                        style={twj("border border-1 border-gray-300")}
-                        placeholder='Enter Password'
-                        value={ password }
-                        onChange={(e) => setPassword(e.target.value)}
-                    >
-                    </Form.Control>
-                </Form.Group>
+                                <Button
+                                    type='submit'
+                                    variant='primary'
+                                    className='my-4 py-3 btn-dark w-100'
+                                >
+                                    Sign In
+                                </Button>
 
-                <Button
-                    type='submit'
-                    variant='primary'
-                    className='my-4 py-3 btn-dark w-100'
-                >
-                    Sign In
-                </Button>
-            </Form>
-
-            <Row className='py-3 text-center'>
-                <Col>
-                    New Customer? 
-                    <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className='mx-3'>
-                        Register
-                    </Link>
-                </Col>
-            </Row>
+                                <Row className='py-3 text-center fw-medium'>
+                                    <Col>
+                                        New Customer? 
+                                        <Link to={redirect ? `/register?redirect=${redirect}` : '/register'} className='mx-3'>
+                                            Register
+                                        </Link>
+                                    </Col>
+                                </Row>     
+                            </Form>
+                )
+            }       
         </FormContainer>
     )
 }
