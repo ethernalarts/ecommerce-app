@@ -28,6 +28,7 @@ class Review(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     rating = models.IntegerField(null=True, blank=True, default=0)
     comment = models.TextField(null=True, blank=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)
     
     def __str__(self):
@@ -40,9 +41,9 @@ class Order(models.Model):
     taxPrice = models.CharField(max_length=10, null=True, blank=True)
     shippingPrice = models.CharField(max_length=10, null=True, blank=True)
     totalPrice = models.CharField(max_length=10, null=True, blank=True)
-    isPaid = models.BooleanField(default=0)
+    isPaid = models.BooleanField(default=False)
     paidAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
-    isDelivered = models.BooleanField(default=0)
+    isDelivered = models.BooleanField(default=False)
     deliveredAt = models.DateTimeField(auto_now_add=False, null=True, blank=True)
     createdAt = models.DateTimeField(auto_now_add=True)
     _id = models.AutoField(primary_key=True, editable=False)

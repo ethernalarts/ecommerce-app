@@ -11,11 +11,12 @@ import { addToCart } from '../actions/cartActions';
 
 export default function Product({ product }) {
     const dispatch = useDispatch()
-    //const qty = 1
     
     const addToCartHandler = () => {
         dispatch (addToCart(product._id, 1))
     }
+
+
 
     return (
         <Card className='shadow' style={twj("font-sans text-md my-4 border-0")}>
@@ -44,8 +45,9 @@ export default function Product({ product }) {
                     <Button 
                         onClick={ addToCartHandler }
                         type='button' 
-                        className='my-2 btn-warning w-100'
-                        //style={twj("font-sans font-medium bg-orange-500 shadow-md shadow-orange-400/50")}
+                        variant='primary'
+                        className='my-2 w-100'
+                        style={twj("bg-orange-500 drop-shadow-md shadow-orange-400/50")}
                         disabled={ product.countInStock === 0 }>
                         Add to Cart
                     </Button>

@@ -75,7 +75,7 @@ export default function LoginScreen() {
                                 <Button
                                     type='submit'
                                     variant='primary'
-                                    className='my-4 py-3 btn-dark w-100'
+                                    className='my-4 py-3 w-100'
                                 >
                                     Sign In
                                 </Button>

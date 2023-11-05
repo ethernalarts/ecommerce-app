@@ -68,3 +68,57 @@ def deleteProduct(request, pk):
     product = Product.objects.get(_id=pk)
     product.delete()
     return Response('Product deleted')
+
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+    
+    product_id = data['product_id']
+    product = Product.objects.get(_id=product_id)
+    
+    product.image = request.FILES.get('image')
+    product.save()
+    
+    return Response('Image uploaded')
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createProductReview(request, pk):
+    user = request.user
+    product = Product.objects.get(_id=pk)
+    data = request.data
+
+    # 1 - Review already exists
+    reviewExists = product.review_set.filter(user=user).exists()
+
+    if reviewExists:
+        content = {'detail': 'You have already reviewed this product'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+
+    elif data['rating'] == 0:
+        content = {'detail': 'Please select a rating'}
+        return Response(content, status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+        review = Review.objects.create(
+            user=user,
+            product=product,
+            name=user.first_name,
+            rating=data['rating'],
+            comment=data['comment'],
+        )
+
+        reviews = product.review_set.all()
+        product.numReviews = len(reviews)
+        
+        total = sum(i.rating for i in reviews)
+        
+        product.rating = total / len(reviews)
+        product.save()
+
+        return Response('Your review has been added')
+        
+    

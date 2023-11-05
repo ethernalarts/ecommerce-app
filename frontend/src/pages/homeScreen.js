@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { twj } from 'tw-to-css';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 import Product from '../components/product';
 import Loader from '../components/Loader';
@@ -13,32 +13,43 @@ import { listProducts } from '../actions/productActions';
 export default function HomeScreen() {
     
     const dispatch = useDispatch()
-    const productList = useSelector(state => state.productList)
-    const { error, loading, products } = productList
+    
+    const { error, loading, products } = useSelector(state => state.productList)
 
     useEffect(() => {
-        dispatch (listProducts())
+        dispatch(listProducts())
 
     }, [ dispatch ])
 
     
     return (
         <div style={twj("font-sans mt-8")}>
-            <h1 style={twj("text-3xl font-medium text-gray-700")}>New Arrivals</h1>
+            <Button 
+                style={twj("text-3xl font-normal mb-3")}                                    
+            >
+                Top Sellers
+            </Button>
+
             {
-                loading ? <Loader style={twj("mt-48")} />
+                loading ? <Loader />
                 :   error ? <Message variant="danger">{ error }</Message>
-                    :  
-                        <Row style={twj("")}>
-                            { products.map( product => (
-                                <Col
-                                    key={ product._id } 
-                                    sm={12} md={6} lg={4} xl={3}
-                                >
-                                    <Product product={ product } />
-                                </Col>
-                            ))}
-                        </Row>
+                    :   (
+                            <>                                
+                                <Row>
+                                    {
+                                        products.map(product => (
+                                            <Col
+                                                key={product._id}
+                                                sm={12} md={6} lg={4} xl={3}
+                                            >
+                                                <Product product={product} />
+                                            </Col>
+                                        ))
+                                    }
+                                </Row>
+                            </>
+                    )                       
+                        
             }
         </div>
     )

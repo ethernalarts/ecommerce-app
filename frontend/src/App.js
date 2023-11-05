@@ -15,6 +15,7 @@ import ShippingScreen from './pages/shippingScreen';
 import PaymentScreen from './pages/paymentScreen';
 import PlaceOrderScreen from './pages/placeOrderScreen';
 import OrderScreen from './pages/orderScreen';
+import OrderListScreen from './pages/orderListScreen';
 import UserListScreen from './pages/userListScreen';
 import UserEditScreen from './pages/userEditScreen';
 import ProductListScreen from './pages/productListScreen';
@@ -44,6 +45,7 @@ function App() {
                         <Route path='/admin/userlist' Component={ UserListScreen } />
 
                         <Route path='/admin/productlist' Component={ ProductListScreen } />                   
+                        <Route path='/admin/orderlist' Component={ OrderListScreen } />
                         <Route path='/admin/product/:id/edit' Component={ ProductEditScreen } />
                         
                         <Route path='/cart/:id?' Component={ CartScreen } />

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useParams, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Row, Col, Image, Card, ListGroup } from 'react-bootstrap';
 import { PayPalButton } from "react-paypal-button-v2";
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
+import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 import naira from '../Naira';
 import { twj } from 'tw-to-css';
 
@@ -26,8 +26,11 @@ export default function OrderScreen() {
     const orderDetails = useSelector(state => state.orderDetails)
     const { order, error, loading } = orderDetails
 
-    const orderPay = useSelector(state => state.orderPay)
-    const { loading: loadingPay, success: successPay } = orderPay
+    const { loading: loadingPay, success: successPay } = useSelector(state => state.orderPay)
+
+    const { loading: loadingDeliver, success: successDeliver } = useSelector(state => state.orderDeliver)
+
+    const { userInfo } = useSelector(state => state.userLogin)
 
     const addPayPalScript = () => {
         const script = document.createElement('script')
@@ -45,8 +48,14 @@ export default function OrderScreen() {
     }
 
     useEffect(() => {
-        if ( !order || successPay || order._id !== Number(orderId) ) {
+        if (!userInfo) {
+            history('/login')
+        }
+
+        if ( !order || successPay || order._id !== Number(orderId) || successDeliver) {
             dispatch({ type: ORDER_PAY_RESET })
+            dispatch({ type: ORDER_DELIVER_RESET })
+
             dispatch(getOrderDetails( orderId ))
         } else if ( !order.isPaid ) {
             if ( !window.paypal ) {
@@ -55,17 +64,23 @@ export default function OrderScreen() {
                 setSdkReady(true)
             }
         }
-    }, [ dispatch, order, orderId, successPay ])
+    }, [ dispatch, order, orderId, successPay, successDeliver ])
 
     const successPaymentHandler = ( paymentResult ) => {
         dispatch(payOrder( orderId, paymentResult ))
     }
 
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order))
+    }
+
+
+
     return loading ? <Loader /> : error ? <Message variant='danger'>{ error }</Message> :
     (        
         <div>
             <h1 className='text-center mb-4 mt-2'>Order Details</h1>
-            <Row>
+            <Row className='fw-medium'>
                 <Col md={8}>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
@@ -84,7 +99,7 @@ export default function OrderScreen() {
                             {
                                 order.isDelivered ? (
                                     <Message variant='success'>
-                                        Deliverd on { order.delivereddAt }
+                                        Delivered on { order.deliveredAt.substring(0,10) }
                                     </Message>
                                 ) : (
                                     <Message variant='warning'>
@@ -102,7 +117,7 @@ export default function OrderScreen() {
                             {
                                 order.isPaid ? (
                                     <Message variant='success'>
-                                        Paid on { order.paidAt }
+                                        Paid on { order.paidAt.substring(0,10) }
                                     </Message>
                                 ) : (
                                     <Message variant='warning'>
@@ -125,7 +140,7 @@ export default function OrderScreen() {
                                             <ListGroup.Item key={ index }>
                                                 <Row>
                                                     <Col md={1}>
-                                                        <Image src={ item.image } alt={ item.name }  fluid />
+                                                        <Image src={ item.image } alt={ item.name } fluid />
                                                     </Col>
 
                                                     <Col>
@@ -195,6 +210,25 @@ export default function OrderScreen() {
                                 )
                             }
                         </ListGroup>
+
+                        {
+                            userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                                <ListGroup.Item className='p-3'>
+                                    <Button
+                                        type='button'
+                                        className='btn w-100 btn-block'
+                                        variant='dark'
+                                        onClick={ deliverHandler }
+                                    >
+                                        {
+                                            loadingDeliver 
+                                            ? <Loader />
+                                                : 'Mark as Deliver'
+                                        }
+                                    </Button>
+                                </ListGroup.Item>
+                            )
+                        }
                     </Card>
                 </Col>
             </Row>
