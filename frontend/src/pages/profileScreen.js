@@ -25,11 +25,9 @@ export default function ProfileScreen() {
     const history = useNavigate()
     const dispatch = useDispatch()
 
-    const userDetails = useSelector(state => { return state.userDetails })
-    const { loading, user, error } = userDetails
+    const { loading, user, error } = useSelector(state => { return state.userDetails })
 
-    const userLogin = useSelector(state => state.userLogin)
-    const { userInfo } = userLogin
+    const { userInfo } = useSelector(state => state.userLogin)
 
     const userUpdateProfile = useSelector(state => state.userUpdateProfile)
     const { success } = userUpdateProfile
@@ -71,6 +69,7 @@ export default function ProfileScreen() {
             setMessage ('')
         }
     }
+
 
     return (
         <Row>

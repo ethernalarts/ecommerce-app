@@ -1,9 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
+import { Container, Nav, NavDropdown, Navbar, Image, Dropdown, NavItem, NavLink } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../actions/userActions';
+import SearchBar from './searchBar';
 import { twj } from 'tw-to-css';
+import logo from '../logo.png';
 
 
 
@@ -17,62 +19,94 @@ function Header() {
         dispatch (logout())
     }
 
+
     return (
         <header>
             <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
                 <Container>
                     <LinkContainer to='/'>
-                        <Navbar.Brand>TechShop</Navbar.Brand>
+                        <Nav.Link>                            
+                            <Image src={logo}  style={twj("w-52")}/>
+                        </Nav.Link>
                     </LinkContainer>
 
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
                     <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ml-auto">
+
+                        <div style={twj("grid place-items-center mx-auto")} >
+                            <SearchBar />
+                        </div>
+
+                        <Nav style={twj("ml-auto")}>
+
+                            <LinkContainer to='/'>
+                                <Nav.Link>
+                                    <i className='fas fa-home' style={twj("mr-2")}></i>Home
+                                </Nav.Link>
+                            </LinkContainer>
+
                             <LinkContainer to='/cart'>
                                 <Nav.Link>
                                     <i className='fas fa-shopping-cart' style={twj("mr-2")}></i>Cart
                                 </Nav.Link>
-                            </LinkContainer>
-
+                            </LinkContainer>                            
+                                
                             {
-                                userInfo ? (
-                                    <NavDropdown title={userInfo.name.split(' ')[0]} id='name'>
-                                        <LinkContainer to='/profile'>
-                                            <NavDropdown.Item>Profile</NavDropdown.Item>
-                                        </LinkContainer>
+                                userInfo ? (     
+                                    <Dropdown as={NavItem} style={twj("inline-flex")}>
+
+                                        <Dropdown.Toggle as={NavLink} id='name'>
+                                            <i className='fas fa-user' style={twj("mr-2")}></i>                                    
+                                            {
+                                                userInfo.isAdmin ? (
+                                                    userInfo.name.split(' ')[0] + ' ' + '(Admin)'
+                                                ) : (
+                                                    userInfo.name.split(' ')[0]
+                                                )
+                                            }
+                                        </Dropdown.Toggle>
                                         
-                                        <NavDropdown.Item onClick={ logoutHandler }>Logout</NavDropdown.Item>
-                                    </NavDropdown>
+                                        <Dropdown.Menu>
+                                            <LinkContainer to='/profile'>
+                                                <NavDropdown.Item>Profile</NavDropdown.Item>
+                                            </LinkContainer>                                     
+
+                                            {
+                                                userInfo.isAdmin && (
+                                                    <>
+                                                        <LinkContainer to='/admin/userlist'>
+                                                            <NavDropdown.Item>Users</NavDropdown.Item>
+                                                        </LinkContainer>
+                                                        
+                                                        <LinkContainer to='/admin/productlist'>
+                                                            <NavDropdown.Item>Products</NavDropdown.Item>
+                                                        </LinkContainer>
+                                                        
+                                                        <LinkContainer to='/admin/orderlist'>
+                                                            <NavDropdown.Item>Orders</NavDropdown.Item>
+                                                        </LinkContainer>
+                                                    </>
+                                                )
+                                            }
+                                                
+                                            <NavDropdown.Item onClick={ logoutHandler }>
+                                                Logout
+                                            </NavDropdown.Item>  
+                                        </Dropdown.Menu> 
+                                    
+                                    </Dropdown>
+
                                 ) : (                            
                                         <LinkContainer to='/login'>
                                             <Nav.Link>
-                                                <i className='fas fa-user' style={twj("mr-2")}></i>Login
+                                            <i className='fas fa-user' style={twj("mr-2")}></i>Login
                                             </Nav.Link>
                                         </LinkContainer>
                                     )
                             }
-
-                            {
-                                userInfo && userInfo.isAdmin && (
-                                    <NavDropdown title='Admin' id='admin-menu'>
-                                        <LinkContainer to='/admin/userlist'>
-                                            <NavDropdown.Item>Users</NavDropdown.Item>
-                                        </LinkContainer>
-
-                                        
-                                        <LinkContainer to='/admin/productlist'>
-                                            <NavDropdown.Item>Products</NavDropdown.Item>
-                                        </LinkContainer>
-
-                                        
-                                        <LinkContainer to='/admin/orderlist'>
-                                            <NavDropdown.Item>Orders</NavDropdown.Item>
-                                        </LinkContainer>
-                                    </NavDropdown>
-                                )
-                            }
                         </Nav>
+                        
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

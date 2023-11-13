@@ -38,9 +38,19 @@ function CartScreen() {
     }
 
 
+
     return (
         <div>
-            <h1 className='text-center mb-4'>Your Cart Items</h1>
+            <h1 className='text-center mb-4'>Your Cart</h1>
+
+            <Link to="/">
+                <Button 
+                    className='btn btn-dark mt-4 mb-3' 
+                    type='button'
+                >
+                    <i className='fas fa-angle-left'></i><span className='ms-2'>Go Back</span>
+                </Button>
+            </Link>
 
             
             { 
@@ -50,10 +60,9 @@ function CartScreen() {
                 </Message>
                 ) : 
                     (
-                        <Table striped hover responsive className="mt-4 table-md fw-medium" style={twj("shadow-md")}>
+                        <Table striped hover responsive className="table-md fw-medium" style={twj("shadow-md")}>
                             <thead className='text-center'>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Product Image</th>
                                     <th>Product Name</th>
                                     <th>Product Price</th>
@@ -66,10 +75,6 @@ function CartScreen() {
                                 {
                                     cartItems.map(item => (
                                         <tr key={ item.product_id }>
-                                            <td>
-                                                { item.product_id }
-                                            </td>
-
                                             <td>
                                                 <Image src={ item.image } alt={ item.name } style={twj("w-28")} fluid />
                                             </td>
@@ -145,11 +150,6 @@ function CartScreen() {
                 </Card>
             </div>
 
-            <Link to="/">
-                <Button className='btn btn-dark mt-4'>
-                    <i className='fas fa-angle-left'></i><span className='ms-2'>Go Back</span>
-                </Button>
-            </Link>
         </div>
     )
 }

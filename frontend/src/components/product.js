@@ -43,11 +43,11 @@ export default function Product({ product }) {
 
                 <Card.Link>
                     <Button 
-                        onClick={ addToCartHandler }
                         type='button' 
-                        variant='primary'
+                        variant='warning'
                         className='my-2 w-100'
-                        style={twj("bg-orange-500 drop-shadow-md shadow-orange-400/50")}
+                        //style={twj("bg-orange-500 shadow-md hover:bg-orange-300")}
+                        onClick={ addToCartHandler }
                         disabled={ product.countInStock === 0 }>
                         Add to Cart
                     </Button>

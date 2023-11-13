@@ -1,34 +1,48 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { twj } from 'tw-to-css';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Carousel } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 
 import Product from '../components/product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/paginate';
+import TopProductsCarousel from '../components/topProductsCarousel';
+import SearchBar from '../components/searchBar';
 import { listProducts } from '../actions/productActions';
+import { twj } from 'tw-to-css';
 
 
 
 export default function HomeScreen() {
     
     const dispatch = useDispatch()
+
+    const keyword = useLocation().search
     
-    const { error, loading, products } = useSelector(state => state.productList)
+    const { error, loading, products, pages, page } = useSelector(state => state.productList)
 
     useEffect(() => {
-        dispatch(listProducts())
+        dispatch(listProducts(keyword))
 
-    }, [ dispatch ])
+    }, [ dispatch, keyword ])
+
 
     
     return (
-        <div style={twj("font-sans mt-8")}>
+        <div style={twj("font-sans mt-10")}>
+
+            {/* { !keyword && <TopProductsCarousel /> } */}            
+
+            {/* <div style={twj("grid place-items-center w-full")} >
+                <SearchBar />
+            </div> */}
+
             <Button 
-                style={twj("text-3xl font-normal mb-3")}                                    
+                style={twj("text-2xl font-normal mt-12 mb-2")}                                    
             >
                 Top Sellers
-            </Button>
+            </Button>            
 
             {
                 loading ? <Loader />
@@ -47,6 +61,8 @@ export default function HomeScreen() {
                                         ))
                                     }
                                 </Row>
+
+                                <Paginate page={page} pages={pages} keyword={keyword} />
                             </>
                     )                       
                         
