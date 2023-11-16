@@ -38,7 +38,7 @@ export default function SearchBar() {
 
             <Button
                 type='submit'
-                variant='warning'
+                variant='outline-warning'
                 className='p-2 px-3 ms-2'
             >
                 Search

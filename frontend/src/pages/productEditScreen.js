@@ -99,7 +99,7 @@ export default function ProductEditScreen() {
 
 
     return (
-        <div>
+        <div style={twj("mt-12")}>
             <Link to='/admin/productlist'>
                 <Button variant='dark'>
                     <i className='fas fa-angle-left'></i><span className='ms-2'>Go Back</span>

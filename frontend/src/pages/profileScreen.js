@@ -71,8 +71,9 @@ export default function ProfileScreen() {
     }
 
 
+
     return (
-        <Row>
+        <Row style={twj("mt-12 font-medium")}>
             <Col md={3}>
                 <h2 className='text-center'>User Profile</h2>
 
@@ -89,7 +90,7 @@ export default function ProfileScreen() {
                             required
                             type='text'
                             placeholder='Enter Full Name'
-                            style={twj("border border-1 border-gray-300")}
+                            style={twj("border border-1 border-gray-300 font-medium")}
                             value={ name }
                             onChange={(e) => setName(e.target.value)}
                         >
@@ -103,7 +104,7 @@ export default function ProfileScreen() {
                             required
                             type='text'
                             placeholder='Enter Username'
-                            style={twj("border border-1 border-gray-300")}
+                            style={twj("border border-1 border-gray-300 font-medium")}
                             value={ username }
                             onChange={(e) => setUsername(e.target.value)}
                         >
@@ -117,7 +118,7 @@ export default function ProfileScreen() {
                             required
                             type='email'
                             placeholder='Enter Email'
-                            style={twj("border border-1 border-gray-300")}
+                            style={twj("border border-1 border-gray-300 font-medium")}
                             value={ email }
                             onChange={(e) => setEmail(e.target.value)}
                         >
@@ -130,7 +131,7 @@ export default function ProfileScreen() {
                         <Form.Control
                             type='password'
                             placeholder='Enter Password'
-                            style={twj("border border-1 border-gray-300")}
+                            style={twj("border border-1 border-gray-300 font-medium")}
                             value={ password }
                             onChange={(e) => setPassword(e.target.value)}
                         >
@@ -143,7 +144,7 @@ export default function ProfileScreen() {
                         <Form.Control
                             type='password'
                             placeholder='Confirm Password'
-                            style={twj("border border-1 border-gray-300")}
+                            style={twj("border border-1 border-gray-300 font-medium")}
                             value={ confirmPassword }
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         >

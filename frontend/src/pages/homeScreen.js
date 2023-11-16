@@ -32,11 +32,7 @@ export default function HomeScreen() {
     return (
         <div style={twj("font-sans mt-10")}>
 
-            {/* { !keyword && <TopProductsCarousel /> } */}            
-
-            {/* <div style={twj("grid place-items-center w-full")} >
-                <SearchBar />
-            </div> */}
+            {/* { !keyword && <TopProductsCarousel /> } */}  
 
             <Button 
                 style={twj("text-2xl font-normal mt-12 mb-2")}                                    

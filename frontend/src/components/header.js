@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../actions/userActions';
 import SearchBar from './searchBar';
 import { twj } from 'tw-to-css';
-import logo from '../logo.png';
+import logo from '../logo-1.png';
 
 
 
@@ -34,7 +34,7 @@ function Header() {
 
                     <Navbar.Collapse id="basic-navbar-nav">
 
-                        <div style={twj("grid place-items-center mx-auto")} >
+                        <div style={twj("ml-auto")} >
                             <SearchBar />
                         </div>
 
@@ -54,7 +54,7 @@ function Header() {
                                 
                             {
                                 userInfo ? (     
-                                    <Dropdown as={NavItem} style={twj("inline-flex")}>
+                                    <Dropdown as={NavItem}>
 
                                         <Dropdown.Toggle as={NavLink} id='name'>
                                             <i className='fas fa-user' style={twj("mr-2")}></i>                                    
