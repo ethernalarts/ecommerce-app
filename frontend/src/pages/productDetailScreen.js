@@ -32,14 +32,14 @@ export default function ProductDetailScreen() {
         error: errorProductReview 
     } = useSelector(state => state.productCreateReview)
 
-    useEffect(() => { 
+    useEffect(() => {
         if (successProductReview) {
             setRating(0)
             setComment('')
             dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
         }
-        dispatch ( listProductDetails( id ))
-        //return () => dispatch( { type: CLEAR_PRODUCT_DETAILS } )        
+        dispatch(listProductDetails( id ))
+        return () => dispatch( { type: CLEAR_PRODUCT_DETAILS } )        
 
     }, [ dispatch, id, successProductReview ])
 
@@ -59,10 +59,11 @@ export default function ProductDetailScreen() {
 
   
     return (
-        <div style={twj("font-sans font-normal")}>
+        <div style={twj("font-sans font-normal mt-12")}>
             <Link to='/' className='btn btn-dark my-3'>
-                <i className='fas fa-arrow-left'></i> Back
+                <i className='fas fa-angle-left'></i> Back
             </Link>
+
             {
                 loading ? <Loader />
                 :   error ? <Message variant="danger">{ error }</Message>
@@ -73,45 +74,36 @@ export default function ProductDetailScreen() {
                                     <Col md={6}>
                                         <Image src={product.image} alt={product.name} fluid />
                                     </Col>
-                        
-                                    <Col md={3}>
-                                        <ListGroup variant='flush'>
-                                            <ListGroup.Item>
-                                                <h3>{ product.name }</h3>
-                                            </ListGroup.Item>
-                                            
-                                            <ListGroup.Item>
-                                                <Rating value={ product.rating } text={`${product.numReviews} reviews` } color={'#f8e825'} />
-                                            </ListGroup.Item>
-                                            
-                                            <ListGroup.Item>
-                                                Price: { naira.format(product.price) }
-                                            </ListGroup.Item>
-                                            
-                                            <ListGroup.Item style={twj("text-justify")}>
-                                                Description: { product.description }
-                                            </ListGroup.Item>
-                                        </ListGroup>
-                                    </Col>
-                                    
-                                    <Col md={3}>
-                                        <Card>
-                                            <ListGroup variant='flush'>
-                                                <ListGroup.Item>
-                                                    <Row>
-                                                        <Col>Price</Col>
 
-                                                        <Col>
-                                                            { naira.format(product.price) }
-                                                        </Col>
-                                                    </Row>
-                                                </ListGroup.Item>
-                                                
+                                    <Col md={6}>                                
+                                        <ListGroup variant='flush'>
+                                            <ListGroup.Item style={twj("py-2")}>
+                                                <h4 style={twj("font-bold")}>
+                                                    { product.name }
+                                                </h4>
+                                            </ListGroup.Item>
+                                            
+                                            <ListGroup.Item>
+                                                Brand: { product.brand }
+                                            </ListGroup.Item>
+                                            
+                                            <ListGroup.Item>
+                                                <Rating value={ product.rating } text={`${product.numReviews} review(s)` } color={'#f8e825'} />
+                                            </ListGroup.Item>
+                                            
+                                            <ListGroup.Item style={twj("text-2xl font-bold")}>
+                                                { naira.format(product.price) }
+                                            </ListGroup.Item>
+                                            
+                                            <ListGroup.Item>
+                                                { product.countInStock } units left
+                                            </ListGroup.Item>
+
+                                            <ListGroup variant='flush'>
+                                            
                                                 <ListGroup.Item>
                                                     <Row>
-                                                        <Col>
-                                                            Status
-                                                        </Col>
+                                                        <Col>Status:</Col>
 
                                                         <Col>
                                                             { product.countInStock > 0 ? 'In Stock' : 'Out of Stock' }
@@ -142,24 +134,44 @@ export default function ProductDetailScreen() {
                                                         </Row>
                                                     </ListGroup.Item>
                                                 ) }
-                                                
-                                                <ListGroup.Item>
+                                            
+                                                <ListGroup.Item style={twj("py-3.5")}>
                                                     {/* <Link to={`/cart/`} state={{ qty: Number(qty), id:id }}> */}
                                                         <Button 
                                                             onClick={ addToCartHandler }
                                                             type='button' 
-                                                            className='btn btn-dark btn-block w-100' 
-                                                            disabled={ product.countInStock === 0 }>
-                                                            Add to Cart
+                                                            className='btn btn-warning btn-block w-100 py-3' 
+                                                            disabled={ product.countInStock === 0 }
+                                                        >
+                                                            <span style={twj("float-left")}>
+                                                                <i class="fa-solid fa-cart-shopping"></i>
+                                                            </span>
+                                                            
+                                                            <span style={twj("text-md font-bold")}>
+                                                                Add to Cart
+                                                            </span>
                                                         </Button>
                                                     {/* </Link> */}
                                                 </ListGroup.Item>
                                             </ListGroup>
-                                        </Card>
-                                    </Col>
+                                        </ListGroup>                                        
+                                    </Col>                                    
+                                </Row>                                       
+                                
+                                {/* Product Description */}
+                                <Row className='mx-auto mt-4'>
+                                    <Card>                                     
+                                        <Col style={twj("text-justify px-3 py-4")}>
+                                            <p style={twj("font-bold text-lg mb-2")}>
+                                                Product Description
+                                            </p>
+                                            { product.description }
+                                        </Col>
+                                    </Card>   
                                 </Row>
 
-                                <Row style={twj("mt-10")}>
+                                {/* Reviews */}
+                                <Row style={twj("mt-12")}>
                                     <Col md={6}>
                                         <Button style={twj("text-lg cursor-arrow font-medium mb-3")}>
                                             Reviews

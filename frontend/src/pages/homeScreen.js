@@ -10,6 +10,7 @@ import Paginate from '../components/paginate';
 import TopProductsCarousel from '../components/topProductsCarousel';
 import SearchBar from '../components/searchBar';
 import { listProducts } from '../actions/productActions';
+import { listTopRatedProducts } from '../actions/productActions';
 import { twj } from 'tw-to-css';
 
 
@@ -21,9 +22,16 @@ export default function HomeScreen() {
     const keyword = useLocation().search
     
     const { error, loading, products, pages, page } = useSelector(state => state.productList)
+    
+    const { 
+        loading:topProductsLoading, 
+        error:topProductsError, 
+        products:topProducts 
+    } = useSelector(state => state.topRatedProducts)
 
     useEffect(() => {
         dispatch(listProducts(keyword))
+        dispatch(listTopRatedProducts())
 
     }, [ dispatch, keyword ])
 
@@ -32,35 +40,61 @@ export default function HomeScreen() {
     return (
         <div style={twj("font-sans mt-10")}>
 
-            {/* { !keyword && <TopProductsCarousel /> } */}  
-
-            <Button 
-                style={twj("text-2xl font-normal mt-12 mb-2")}                                    
-            >
-                Top Sellers
-            </Button>            
+            {/* { !keyword && <TopProductsCarousel /> } */}             
 
             {
-                loading ? <Loader />
-                :   error ? <Message variant="danger">{ error }</Message>
-                    :   (
-                            <>                                
-                                <Row>
-                                    {
-                                        products.map(product => (
-                                            <Col
-                                                key={product._id}
-                                                sm={12} md={6} lg={4} xl={3}
-                                            >
-                                                <Product product={product} />
-                                            </Col>
-                                        ))
-                                    }
-                                </Row>
+                loading || topProductsLoading ? <Loader />
+                :   topProductsError ? <Message variant="danger">{ topProductsError }</Message>
+                    :   
+                        error ? <Message variant="danger">{ error }</Message>
+                        :                        
+                            (
+                                <>                                             
+                                    <Button 
+                                        style={twj("text-2xl font-normal mt-10 mb-2")}                                    
+                                    >
+                                        Top Sellers
+                                    </Button>
 
-                                <Paginate page={page} pages={pages} keyword={keyword} />
-                            </>
-                    )                       
+                                    <Row>
+                                        {
+                                            topProducts.map(topProduct => (
+                                                <Col
+                                                    key={topProduct._id}
+                                                    sm={12} md={6} lg={4} xl={3}
+                                                >
+                                                    <Product product={topProduct} />
+                                                </Col>
+                                            ))
+                                        }
+                                    </Row>
+
+                                    {/* <Paginate page={page} pages={pages} keyword={keyword} /> */}
+                                        
+                                    
+
+                                    <Button 
+                                        style={twj("text-2xl font-normal mt-20 mb-2")}                                    
+                                    >
+                                        ALL PRODUCTS
+                                    </Button>  
+
+                                    <Row>
+                                        {
+                                            products.map(product => (
+                                                <Col
+                                                    key={product._id}
+                                                    sm={12} md={6} lg={4} xl={3}
+                                                >
+                                                    <Product product={product} />
+                                                </Col>
+                                            ))
+                                        }
+                                    </Row>
+
+                                    <Paginate page={page} pages={pages} keyword={keyword} />
+                                </>
+                            )                      
                         
             }
         </div>

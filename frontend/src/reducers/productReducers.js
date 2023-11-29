@@ -7,6 +7,8 @@ import {
     PRODUCT_DETAILS_SUCCESS,
     PRODUCT_DETAILS_FAIL,
 
+    CLEAR_PRODUCT_DETAILS,
+
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
     PRODUCT_DELETE_FAIL,
@@ -80,6 +82,11 @@ export const ProductDetailsReducers = (state = {  product: { reviews:[] } }, act
             return { 
                 loading: false, 
                 error: action.payload 
+            }
+
+        case CLEAR_PRODUCT_DETAILS:
+            return {
+                loading: true
             }
 
         default:

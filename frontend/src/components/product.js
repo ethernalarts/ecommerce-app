@@ -44,11 +44,15 @@ export default function Product({ product }) {
                 <Card.Link>
                     <Button 
                         type='button' 
-                        variant='warning'
+                        //variant='warning'
                         className='my-2 w-100'
-                        //style={twj("bg-orange-500 shadow-md hover:bg-orange-300")}
+                        style={twj("bg-orange-500 shadow-md hover:bg-orange-400")}
                         onClick={ addToCartHandler }
-                        disabled={ product.countInStock === 0 }>
+                        disabled={ product.countInStock === 0 }
+                    >
+                        <span style={twj("float-left")}>
+                            <i class="fa-solid fa-cart-shopping"></i>
+                        </span>
                         Add to Cart
                     </Button>
                 </Card.Link>
