@@ -34,7 +34,7 @@ function Header() {
 
                     <Navbar.Collapse id="basic-navbar-nav">
 
-                        <div style={twj("ml-auto")} >
+                        <div style={twj("ml-auto")}>
                             <SearchBar />
                         </div>
 
@@ -53,7 +53,7 @@ function Header() {
                             </LinkContainer>                            
                                 
                             {
-                                userInfo ? (     
+                                userInfo ? (  
                                     <Dropdown as={NavItem}>
 
                                         <Dropdown.Toggle as={NavLink} id='name'>

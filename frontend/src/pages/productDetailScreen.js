@@ -105,8 +105,16 @@ export default function ProductDetailScreen() {
                                                     <Row>
                                                         <Col>Status:</Col>
 
-                                                        <Col>
-                                                            { product.countInStock > 0 ? 'In Stock' : 'Out of Stock' }
+                                                        <Col>                                                     
+                                                            { 
+                                                                product.countInStock > 0 ? 
+                                                                    <span style={twj("font-bold text-lg text-green-500")}>
+                                                                        In Stock
+                                                                    </span> 
+                                                                    :   <span style={twj("font-bold text-lg text-gray-400")}>
+                                                                            Out of Stock
+                                                                        </span>  
+                                                            }                                                            
                                                         </Col>
                                                     </Row>
                                                 </ListGroup.Item>
@@ -195,7 +203,7 @@ export default function ProductDetailScreen() {
                                             }
 
                                             <ListGroupItem>
-                                                <h4>Write a Review</h4>
+                                                <h4 className='mb-3'>Write a Review</h4>
 
                                                 { loadingProductReview && <Loader /> }
                                                 { 
