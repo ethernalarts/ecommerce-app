@@ -1,6 +1,7 @@
 import {
     CART_ADD_ITEM,
     CART_REMOVE_ITEM,
+    CART_DECREASE_ITEM,
     CART_SAVE_SHIPPING_ADDRESS,
 
     CART_SAVE_PAYMENT_METHOD,
@@ -63,6 +64,20 @@ export const cartReducer = (state = initialState, action) => {
                 ...state,
                 cartItems: []
             }
+
+        case CART_DECREASE_ITEM:
+            const cartItem = state.cartItems.find( item => item.product_id === action.payload.product_id )
+
+            if (action.payload.qty > 1) {
+                return {
+                    ...state,
+                    cartItems: state.cartItems.map(
+                        item => item.product_id === cartItem.product_id ? 
+                            { ...item, qty: item.qty - 1 } 
+                            : item
+                    )
+                }                
+            }            
         
         default:
             return state

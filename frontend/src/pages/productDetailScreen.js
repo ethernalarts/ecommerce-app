@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { twj } from 'tw-to-css';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { Row, Col, Image, Button, Card, Form, ListGroup, ListGroupItem } from 'react-bootstrap';
 
-import Rating from '../components/rating';
-import Loader from '../components/Loader';
-import Message from '../components/Message';
 import { listProductDetails, createProductReview } from '../actions/productActions';
 import { CLEAR_PRODUCT_DETAILS, PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 import { addToCart } from '../actions/cartActions';
+import { toast } from 'react-toastify';
 import naira from '../Naira';
+import Rating from '../components/rating';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+import { twj } from 'tw-to-css';
 
 
 
@@ -44,8 +45,11 @@ export default function ProductDetailScreen() {
     }, [ dispatch, id, successProductReview ])
 
     const addToCartHandler = () => {  
-        dispatch(addToCart(id, qty))      
-        history(`/cart/`)
+        dispatch(addToCart(id, qty))
+        toast.success(`${product.name} has been added to your cart`, {
+            position: "bottom-left"
+        })
+        //history(`/cart/`)
     }
     
     const submitHandler = (e) => {

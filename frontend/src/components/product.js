@@ -1,11 +1,12 @@
 import React from 'react'
-import { twj } from 'tw-to-css';
 import { Card, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import Rating from './rating';
 import { Link } from 'react-router-dom';
-import naira from '../Naira';
 import { addToCart } from '../actions/cartActions';
+import { toast } from 'react-toastify';
+import Rating from './rating';
+import naira from '../Naira';
+import { twj } from 'tw-to-css';
 
 
 
@@ -14,6 +15,9 @@ export default function Product({ product }) {
     
     const addToCartHandler = () => {
         dispatch (addToCart(product._id, 1))
+        toast.success(`${product.name} has been added to your cart`, {
+            position: "bottom-left"
+        })
     }
 
 
@@ -58,6 +62,6 @@ export default function Product({ product }) {
                 </Card.Link>
             </Card.Body>
         </Card>
-)
+    )
 }
 //box-shadow: 0px 4px 16px rgba(17,17,26,0.1), 0px 8px 24px rgba(17,17,26,0.1), 0px 16px 56px rgba(17,17,26,0.1);

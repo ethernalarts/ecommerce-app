@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Nav, NavDropdown, Navbar, Image, Dropdown, NavItem, NavLink } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import { logout } from '../actions/userActions';
+import { toast } from 'react-toastify';
 import SearchBar from './searchBar';
-import { twj } from 'tw-to-css';
 import logo from '../logo-1.png';
+import { twj } from 'tw-to-css';
 
 
 
@@ -17,6 +18,9 @@ function Header() {
 
     const logoutHandler = () => {
         dispatch (logout())
+        toast.info("You have been logged out", {
+            position: "bottom-left"
+        })
     }
 
 

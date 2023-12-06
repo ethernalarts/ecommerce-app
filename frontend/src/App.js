@@ -1,7 +1,7 @@
 import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css"
-import { ToastContainer } from 'react-toastify';
 import { twj } from 'tw-to-css';
 
 import Header from './components/header';
@@ -36,7 +36,6 @@ function App() {
             <main style={twj("font-sans bg-gray-300 py-3")}>
                 <Container>
                     <Routes>
-                    <ToastContainer />
                         <Route path='/' Component={ HomeScreen } exact />
                         <Route path='/login' Component={ LoginScreen } />
                         <Route path='/register' Component={ RegisterScreen } />
@@ -55,6 +54,10 @@ function App() {
                         <Route path='/admin/user/:id/edit' Component={ UserEditScreen } />
                         <Route path='/product/:id' element={ <ProductDetailScreen /> } />
                     </Routes>
+                    <ToastContainer 
+                        theme="colored"
+                        autoClose={3000}
+                    />
                 </Container>
             </main>
             
