@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Button, Form, Card, Table } from 'react-bootstrap';
-import { removeFromCart, decreaseCartItem, increaseCartItem } from '../actions/cartActions';
-import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
+import { removeFromCart, decreaseCartItem, increaseCartItem, addToCart } from '../actions/cartActions';
+//import { CART_CLEAR_ITEMS } from '../constants/cartConstants';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import Message from '../components/Message';
@@ -23,16 +23,18 @@ function CartScreen() {
 
     const { cartItems } = useSelector(state => state.cart)
 
-    const [cart, setCart] = useState([]);
+    // const [cart, setCart] = useState(initializeState);
 
     useEffect(() => {
-        //localStorage.setItem('cart', JSON.stringify(cart));
-        JSON.parse(localStorage.cart)
-        //JSON.parse(localStorage.getItem('cartItems'))
-    }, [cart]);
+        if (product_id) {
+            dispatch(addToCart(product_id, qty))
+        }
+    }, [dispatch, product_id, qty]);
 
-    const removeFromCartHandler = ( product_id, product_name ) => {
-        dispatch(removeFromCart( product_id ))
+    const removeFromCartHandler = (product_id, product_name) => {
+        dispatch(removeFromCart(product_id))
+        // const newCartItems = cart.filter(item => item.id !== product_id);
+        // setCart(newCartItems)
         toast.error(`${product_name} has been removed from your cart`, {
             position: "bottom-left"
         })
@@ -74,8 +76,10 @@ function CartScreen() {
             
             { 
                 cartItems.length === 0 ? (
-                <Message variant="info" className='mt-4 fw-medium'>
-                    Your cart is empty. <Link to="/" className='fw-bold'>Start Shopping</Link>
+                <Message variant="info" style={twj("mt-4")}>
+                    <div style={twj("text-lg font-normal")}>
+                        Your cart is empty. <Link to="/" className='fw-bold'>Start Shopping</Link>
+                    </div>
                 </Message>
                 ) : 
                     (
@@ -121,7 +125,7 @@ function CartScreen() {
                                                 <Row xs={12} md={3}>
                                                     <Button                                                        
                                                         type='button' 
-                                                        //variant='dark'
+                                                        variant='dark'
                                                         onClick={() => decreaseCartItemHandler( item.product_id, item.qty )}
                                                     >
                                                         -
@@ -129,6 +133,7 @@ function CartScreen() {
                                                         <div className='p-2 text-center'>{item.qty}</div>
                                                     <Button
                                                         type='button'
+                                                        variant='dark'
                                                         //onClick={() => increaseCartItemHandler( item.product_id, item.qty )}
                                                     >
                                                         +
@@ -171,7 +176,7 @@ function CartScreen() {
             
             
             <Col md={6} className='mt-4 mb-4 text-center mx-auto'>
-                <Card style={twj("")}>
+                <Card>
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
                             <h2>Subtotal ({ cartItems.reduce((acc, item) => acc + item.qty, 0) }) items</h2>

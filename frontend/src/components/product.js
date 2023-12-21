@@ -9,17 +9,16 @@ import naira from '../Naira';
 import { twj } from 'tw-to-css';
 
 
-
 export default function Product({ product }) {
+    
     const dispatch = useDispatch()
     
     const addToCartHandler = () => {
-        dispatch (addToCart(product._id, 1))
+        dispatch(addToCart(product._id, 1))
         toast.success(`${product.name} has been added to your cart`, {
             position: "bottom-left"
         })
     }
-
 
 
     return (
@@ -54,10 +53,17 @@ export default function Product({ product }) {
                         onClick={ addToCartHandler }
                         disabled={ product.countInStock === 0 }
                     >
-                        <span style={twj("float-left")}>
-                            <i class="fa-solid fa-cart-shopping"></i>
-                        </span>
-                        Add to Cart
+                        { 
+                            product.countInStock === 0 ? 'Out of Stock'
+                            :   (
+                                    <div>
+                                        <span style={twj("float-left")}>
+                                            <i class="fa-solid fa-cart-shopping"></i>                                    
+                                        </span>                                        
+                                        Add to Cart
+                                    </div>
+                            )
+                        }
                     </Button>
                 </Card.Link>
             </Card.Body>
