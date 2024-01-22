@@ -1,5 +1,5 @@
 # ecommerce-app
- An Ecommerce Application built with React and Django
+An E-Commerce Tech Shop Web Application built with React.js and Django
 
 <img width="960" alt="ScreenShot_20240117114426" src="https://github.com/ethernalarts/ecommerce-app/assets/51105148/21875782-e101-44d9-b09e-25ce2c224bf2">
 
